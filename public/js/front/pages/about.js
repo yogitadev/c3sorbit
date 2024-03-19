@@ -1,0 +1,1 @@
+(()=>{var e=$(".TestimonialSlider");e.owlCarousel({margin:20,loop:!0,dots:!1,nav:!0,autoplay:!1,items:2,responsive:{0:{items:1,dots:!0,nav:!1},600:{items:1,dots:!0,nav:!1},767:{items:2,dots:!0,nav:!1},992:{items:2},1e3:{items:2}}}),e.trigger("refresh.owl.carousel")})();

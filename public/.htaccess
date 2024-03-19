@@ -1,0 +1,44 @@
+<IfModule mod_rewrite.c>
+    <IfModule mod_negotiation.c>
+        Options -MultiViews -Indexes
+    </IfModule>
+
+    RewriteEngine On
+
+
+    # 301 Redirect [Start]
+
+    #RedirectMatch 301 /serviceparts https://mcgirrengineering.com/service-parts
+    #RedirectMatch 301 /contact https://mcgirrengineering.com/contact-us
+    #RedirectMatch 301 /contact-dealer https://mcgirrengineering.com/contact-us
+    #RedirectMatch 301 /about https://mcgirrengineering.com/about-us
+    #RedirectMatch 301 /welcome-to-mcgirr-engineering-ltd/skype-2 https://mcgirrengineering.com/about-us
+    #RedirectMatch 301 /wp-content/uploads/2012/05/MG24-Brochure.pdf https://mcgirrengineering.com/about-us
+
+    #RedirectMatch 301 /multilevel-masterblock https://mcgirrengineering.com/products/masterblock-turnover
+    #RedirectMatch 301 /strap-stack https://mcgirrengineering.com/products/strap-stack
+    #RedirectMatch 301 /wp-content/uploads/2012/05/Strap-+-Stack-Brochure.pdf https://mcgirrengineering.com/products/strap-stack
+    #RedirectMatch 301 /master-strap-automatic https://mcgirrengineering.com/products/master-strap-automatic
+    #RedirectMatch 301 /2012/07/multilevel-masterblock-mkii https://mcgirrengineering.com/products/masterblock-turnover
+    #RedirectMatch 301 /document/d/1c4dLsyB04u6ncyfABbFNk6ZyMpn9qFXG74z57o6fyR8/edit https://mcgirrengineering.com/products/mg24
+    #RedirectMatch 301 /wp-content/uploads/2012/04/Masterblock-Turnover.pdf https://mcgirrengineering.com/products/multilevel-masterblock-mkii
+
+
+    # 301 Redirect [End]
+
+
+
+    # Handle Authorization Header
+    RewriteCond %{HTTP:Authorization} .
+    RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+
+    # Redirect Trailing Slashes If Not A Folder...
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_URI} (.+)/$
+    RewriteRule ^ %1 [L,R=301]
+
+    # Send Requests To Front Controller...
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteRule ^ index.php [L]
+</IfModule>

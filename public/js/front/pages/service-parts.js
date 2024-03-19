@@ -1,0 +1,1 @@
+$(".ServicePartSlider").owlCarousel({margin:20,loop:!0,dots:!1,nav:!0,autoplay:!1,items:5,responsive:{0:{items:2,dots:!0,nav:!1},600:{items:3,dots:!0,nav:!1},767:{items:3,dots:!0,nav:!1},992:{items:3},1e3:{items:3}}});
