@@ -1,0 +1,12 @@
+{
+    "/js/admin/app.js": "/js/admin/app.js",
+    "/js/admin/custom.js": "/js/admin/custom.js",
+    "/js/front/app.js": "/js/front/app.js",
+    "/css/front/app.css": "/css/front/app.css",
+    "/css/admin/parsley.css": "/css/admin/parsley.css",
+    "/css/admin/app.css": "/css/admin/app.css",
+    "/themes/admin/css/all.min.css": "/themes/admin/css/all.min.css",
+    "/themes/admin/js/all.min.js": "/themes/admin/js/all.min.js",
+    "/themes/front/css/all.min.css": "/themes/front/css/all.min.css",
+    "/themes/front/js/all.min.js": "/themes/front/js/all.min.js"
+}

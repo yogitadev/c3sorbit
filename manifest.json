@@ -1,0 +1,28 @@
+{
+  "short_name": "THE WOOD",
+  "name": "THE WOOD",
+  "icons": [
+    {
+      "src": "https://cdn.dotpe.in/longtail/store-logo/7287042/arVIBQ9q.jpeg",
+      "sizes": "512x512 500x500 192x192 64x64 32x32 24x24 16x16",
+      "type": "image/x-icon"
+    },
+    {
+      "src": "https://cdn.dotpe.in/longtail/store-logo/7287042/arVIBQ9q.jpeg",
+      "type": "image/png",
+      "sizes": "512x512 500X500 192x192 64x64 32x32 24x24 16x16"
+    },
+    {
+      "src": "https://cdn.dotpe.in/longtail/store-logo/7287042/arVIBQ9q.jpeg",
+      "sizes": "512x512 500X500 192x192 64x64 32x32 24x24 16x16",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "start_url": "https://the-wood.live?source=pwa",
+  "id": "https://the-wood.live?source=pwa",
+  "display": "standalone",
+  "scope": "https://the-wood.live?source=pwa",
+  "theme_color": "#000000",
+  "background_color": "#fff2f2"
+}
