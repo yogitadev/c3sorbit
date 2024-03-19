@@ -189,15 +189,6 @@
                                 <span class="menu-title">Faculties</span>
                             </a>
                         </div>
-                        <div class="menu-item">
-                            <a class="menu-link <?php echo e(Request::is('admin/person/students') || Request::is('admin/person/students/*') ? 'active' : ''); ?>"
-                                href="<?php echo e(route('student-list')); ?>">
-                                <span class="menu-bullet">
-                                    <span class="bullet bullet-dot"></span>
-                                </span>
-                                <span class="menu-title">Students</span>
-                            </a>
-                        </div>
                     </div>
                 </div>
 
@@ -222,24 +213,6 @@
                                     <span class="bullet bullet-dot"></span>
                                 </span>
                                 <span class="menu-title">Personnel</span>
-                            </a>
-                        </div>
-                        <div class="menu-item">
-                            <a class="menu-link <?php echo e(Request::is('admin/iam/modules') || Request::is('admin/iam/modules/*') ? 'active' : ''); ?>"
-                                href="<?php echo e(route('module-list')); ?>">
-                                <span class="menu-bullet">
-                                    <span class="bullet bullet-dot"></span>
-                                </span>
-                                <span class="menu-title">Modules</span>
-                            </a>
-                        </div>
-                        <div class="menu-item">
-                            <a class="menu-link <?php echo e(Request::is('admin/iam/roles') || Request::is('admin/iam/roles/*') ? 'active' : ''); ?>"
-                                href="<?php echo e(route('role-list')); ?>">
-                                <span class="menu-bullet">
-                                    <span class="bullet bullet-dot"></span>
-                                </span>
-                                <span class="menu-title">Roles</span>
                             </a>
                         </div>
                     </div>

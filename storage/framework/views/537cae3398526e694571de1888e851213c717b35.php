@@ -29,16 +29,12 @@
             <div class="card-toolbar">
                 <div class="d-flex justify-content-end" data-kt-user-table-toolbar="base">
                     <?php echo $__env->make('admin.campaign.institutions._filter', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
-                    <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('institutions.edit')): ?>
-                        <a href="<?php echo e(route('reorder-institution')); ?>" class="btn btn-warning me-3"><i
+                    <a href="<?php echo e(route('reorder-institution')); ?>" class="btn btn-warning me-3"><i
                             class="fas fa-list fs-4 me-1"></i>
                         Reorder</a>
-                    <?php endif; ?>
-                    <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('institutions.add')): ?>
-                        <a href="<?php echo e(route('create-institution')); ?>" class="btn btn-dark"><i
+                    <a href="<?php echo e(route('create-institution')); ?>" class="btn btn-dark"><i
                             class="fas fa-plus fs-4 me-1"></i>
                         Create</a>
-                    <?php endif; ?>
                 </div>
             </div>
 
@@ -54,38 +50,41 @@
                             <th class="min-w-100px">Unique ID</th>
                             <th class="min-w-125px">
                                 <?php echo \App\Helpers\Helper::getColumnSortLink([
-                                    'url' => route('institution-list'),
-                                    'column_title' => 'Name',
-                                    'column_name' => 'name',
-                                    'params' => $params,
-                                ]); ?>
+    'url' => route('institution-list'),
+    'column_title' => 'Name',
+    'column_name' => 'name',
+    'params' => $params,
+]); ?>
 
                             </th>
                             <th class="min-w-125px">
                             <?php echo \App\Helpers\Helper::getColumnSortLink([
-                                'url' => route('institution-list'),
-                                'column_title' => 'Email',
-                                'column_name' => 'email',
-                                'params' => $params,
-                            ]); ?>
+    'url' => route('institution-list'),
+    'column_title' => 'Email',
+    'column_name' => 'email',
+    'params' => $params,
+]); ?>
 
                             </th>
                             <th class="min-w-125px">
                                 <?php echo \App\Helpers\Helper::getColumnSortLink([
-                                    'url' => route('institution-list'),
-                                    'column_title' => 'Status',
-                                    'column_name' => 'status',
-                                    'params' => $params,
-                                ]); ?>
+    'url' => route('institution-list'),
+    'column_title' => 'Status',
+    'column_name' => 'status',
+    'params' => $params,
+]); ?>
 
                             </th>
                             <th class="text-end min-w-100px">Actions</th>
                         </tr>
                     </thead>
 
+
                     <tbody class="text-gray-600 fw-bold">
                         <?php $__currentLoopData = $list; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                             <tr>
+
+
                                 <td>
                                     <?php echo e($item->unique_id); ?>
 
@@ -102,6 +101,8 @@
                                     <?php echo \App\Helpers\Helper::showBadge($item->status); ?>
 
                                 </td>
+
+
                                 <td class="text-end">
 
                                     <a href="#" class="btn btn-light btn-active-light-primary btn-sm"
@@ -111,26 +112,25 @@
 
                                     <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fs-7 w-150px py-4"
                                         data-kt-menu="true">
-                                        <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('institutions.edit')): ?>
-                                            <div class="menu-item px-3">
-                                                <a href="<?php echo e(route('edit-institution', ['unique_id' => $item->unique_id])); ?>"
-                                                    class="menu-link px-3">
-                                                    <i class="fas fa-edit me-3"></i> Edit</a>
-                                            </div>
-                                        <?php endif; ?>
-                                        <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('institutions.delete')): ?>
-                                            <div class="menu-item px-3">
-                                                <a href="<?php echo e(route('delete-institution', ['unique_id' => $item->unique_id])); ?>"
-                                                    data-token="<?php echo e(csrf_token()); ?>" class="menu-link px-3 delete-item-btn"
-                                                    data-kt-users-table-filter="delete_row"><i
-                                                        class="fas fa-trash me-3"></i>Delete</a>
-                                            </div>
-                                        <?php endif; ?>
+                                        <div class="menu-item px-3">
+                                            <a href="<?php echo e(route('edit-institution', ['unique_id' => $item->unique_id])); ?>"
+                                                class="menu-link px-3">
+                                                <i class="fas fa-edit me-3"></i> Edit</a>
+                                        </div>
+                                        <div class="menu-item px-3">
+                                            <a href="<?php echo e(route('delete-institution', ['unique_id' => $item->unique_id])); ?>"
+                                                data-token="<?php echo e(csrf_token()); ?>" class="menu-link px-3 delete-item-btn"
+                                                data-kt-users-table-filter="delete_row"><i
+                                                    class="fas fa-trash me-3"></i>Delete</a>
+                                        </div>
                                     </div>
+
                                 </td>
+
                             </tr>
                         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                     </tbody>
+
                 </table>
             <?php else: ?>
                 <div class="alert alert-warning d-flex align-items-center p-5 mb-10">
@@ -143,6 +143,8 @@
                 </div>
 
             <?php endif; ?>
+
+
         </div>
 
 
@@ -154,7 +156,12 @@
                 </div>
             </div>
         <?php endif; ?>
+
+
     </div>
+
+
+
 <?php $__env->stopSection(); ?>
 
 <?php echo $__env->make('admin.layouts.layout', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH /home/hp/projects/c3sorbit/resources/views/admin/campaign/institutions/index.blade.php ENDPATH**/ ?>
