@@ -22,7 +22,6 @@
 @section('content')
     @include('flash::message')
 
-
     <div class="card">
 
         <div class="card-header border-0 pt-6">
@@ -73,7 +72,6 @@
                         </tr>
                     </thead>
 
-
                     <tbody class="text-gray-600 fw-bold">
                         @foreach ($list as $item)
                             <tr>
@@ -89,14 +87,11 @@
                                 <td>
                                     {!! \App\Helpers\Helper::showBadge($item->status) !!}
                                 </td>
-
                                 <td class="text-end">
-
                                     <a href="#" class="btn btn-light btn-active-light-primary btn-sm"
                                         data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">Actions <i
                                             class="fas fa-angle-down ms-1"></i>
                                     </a>
-
                                     <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fs-7 w-150px py-4"
                                         data-kt-menu="true">
                                         <div class="menu-item px-3">
@@ -111,9 +106,7 @@
                                                     class="fas fa-trash me-3"></i>Delete</a>
                                         </div>
                                     </div>
-
                                 </td>
-
                             </tr>
                         @endforeach
                     </tbody>
@@ -130,10 +123,7 @@
                 </div>
 
             @endif
-
-
         </div>
-
 
         @if ($list->hasPages())
             <div class="card-footer py-4">
