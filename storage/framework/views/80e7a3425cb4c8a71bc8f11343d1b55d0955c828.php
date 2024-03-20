@@ -22,19 +22,7 @@
             <?php echo Form::text('search', $params['search'] ?? null, ['class' => 'form-control']); ?>
 
         </div>
-        <div class="mb-5">
-            <label class="form-label fs-6 fw-bold">Role:</label>
 
-            <?php echo Form::select('role_id', $role_list, $params['role_id'] ?? null, [
-                'class' => 'form-select form-select-solid fw-bolder select2-hidden-accessible',
-                'data-kt-select2' => 'true',
-                'data-placeholder' => 'Select option',
-                'data-allow-clear' => 'true',
-                'data-hide-search' => 'true',
-            ]); ?>
-
-
-        </div>
         <div class="mb-5">
             <label class="form-label fs-6 fw-bold">Status:</label>
 

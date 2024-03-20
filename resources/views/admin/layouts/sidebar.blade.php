@@ -189,6 +189,15 @@
                                 <span class="menu-title">Faculties</span>
                             </a>
                         </div>
+                        <div class="menu-item">
+                            <a class="menu-link {{ Request::is('admin/person/students') || Request::is('admin/person/students/*') ? 'active' : '' }}"
+                                href="{{ route('student-list') }}">
+                                <span class="menu-bullet">
+                                    <span class="bullet bullet-dot"></span>
+                                </span>
+                                <span class="menu-title">Students</span>
+                            </a>
+                        </div>
                     </div>
                 </div>
 

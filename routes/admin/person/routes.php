@@ -17,4 +17,7 @@ Route::group(['prefix' => 'person'], function ($router) {
 
     //Faculties
     require base_path('routes/admin/person/faculties/routes.php');
+
+    //Students
+    require base_path('routes/admin/person/students/routes.php');
 });

@@ -7,6 +7,11 @@
                 <span class="menu-title">Faculties</span>
             </a>
         </div>
+        <div class="menu-item ms-2 here {{ Request::is('admin/person/students') || Request::is('admin/person/students/*') ? 'show' : '' }}">
+            <a class="menu-link py-3" href="{{ route('student-list') }}">
+                <span class="menu-title">Students</span>
+            </a>
+        </div>
 
     </div>
     <!--end::Menu-->
