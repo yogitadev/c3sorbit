@@ -20,4 +20,6 @@ Route::group(['prefix' => 'cms'], function ($router) {
     //Lecture Schedule
     require base_path('routes/admin/cms/lecture_schedules/routes.php');
     
+    //Assignment
+    require base_path('routes/admin/cms/assignments/routes.php');
 });
