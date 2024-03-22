@@ -64,9 +64,11 @@ trait Custom
             'Inactive' => 'warning',
             'Pending' => 'light',
             'Deleted' => 'danger',
+            'Absent' => 'danger',
+            'Present' => 'success',
         ];
 
-        $class = isset($arr[$value]) ? $arr[$value] : 'info';
+        $class = isset($arr[$value]) ? $arr[$value] : 'primary';
 
         return '<div class="badge badge-' . $class . ' fw-bolder">' . $value . '</div>';
     }

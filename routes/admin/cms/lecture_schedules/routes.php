@@ -6,6 +6,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\admin\cms\lecture_schedules\IndexController;
 use App\Http\Controllers\admin\cms\lecture_schedules\CreateController;
 use App\Http\Controllers\admin\cms\lecture_schedules\StoreController;
+use App\Http\Controllers\admin\cms\lecture_schedules\ViewController;
+use App\Http\Controllers\admin\cms\lecture_schedules\ViewSaveController;
 use App\Http\Controllers\admin\cms\lecture_schedules\EditController;
 use App\Http\Controllers\admin\cms\lecture_schedules\UpdateController;
 use App\Http\Controllers\admin\cms\lecture_schedules\ReorderController;
@@ -24,6 +26,10 @@ Route::group(['prefix' => 'lecture-schedules'], function ($router) {
     // Edit
     Route::get('/{unique_id}/edit', EditController::class)->name('edit-lecture-schedule');
     Route::put('/{unique_id}/edit', UpdateController::class);
+
+    //View
+    Route::get('/{unique_id}/view', ViewController::class)->name('view-lecture-schedule');
+    Route::put('/{unique_id}/view', ViewSaveController::class);
 
     // Reorder
     Route::get('/reorder', ReorderController::class)->name('reorder-lecture-schedule');

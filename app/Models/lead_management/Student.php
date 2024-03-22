@@ -17,12 +17,13 @@ use App\Helpers\Helper;
 use App\Models\cms\Country;
 use App\Models\course\Programcode;
 use App\Models\iam\personnel\User;
+use App\Models\cms\LectureStudentPresent;
 
 class Student extends Model
 {
     use HasFactory,SoftDeletes;
 
-    protected $connection = 'mysql2';
+    protected $connection = 'mysql';
 
     protected $table = 'students';
 
@@ -78,7 +79,11 @@ class Student extends Model
     {
         return $this->belongsTo(Programcode::class, 'programcode_id', 'id');
     }
-   
+    public function lecture_student_present()
+    {
+        return $this->belongsTo(LectureStudentPresent::class, 'id', 'student_id');
+    }
+    
     public static function boot()
     {
         parent::boot();

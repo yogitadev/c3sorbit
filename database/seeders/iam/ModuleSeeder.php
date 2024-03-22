@@ -69,6 +69,7 @@ class ModuleSeeder extends Seeder
                             'add' => 'Add',
                             'edit' => 'Edit',
                             'delete' => 'Delete',
+                            'view' => 'View',
                         ],
                     ],
                     [

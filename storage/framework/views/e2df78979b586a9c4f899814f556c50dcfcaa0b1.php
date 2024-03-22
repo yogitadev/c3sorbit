@@ -109,6 +109,13 @@
 
                                     <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fs-7 w-150px py-4"
                                         data-kt-menu="true">
+                                        <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('faculties.view')): ?>
+                                            <div class="menu-item px-3">
+                                                <a href="<?php echo e(route('view-faculty', ['unique_id' => $item->unique_id])); ?>"
+                                                    class="menu-link px-3">
+                                                    <i class="fas fa-eye me-3"></i> View</a>
+                                            </div>
+                                        <?php endif; ?>
                                         <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('faculties.edit')): ?>
                                             <div class="menu-item px-3">
                                                 <a href="<?php echo e(route('edit-faculty', ['unique_id' => $item->unique_id])); ?>"

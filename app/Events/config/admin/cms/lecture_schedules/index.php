@@ -22,4 +22,8 @@ return [
         \App\Listeners\activity\admin\cms\lecture_schedules\ReorderListener::class,
     ],
 
+    \App\Events\admin\cms\lecture_schedules\ViewEvent::class => [
+        \App\Listeners\activity\admin\cms\lecture_schedules\ViewListener::class,
+    ],
+
 ];

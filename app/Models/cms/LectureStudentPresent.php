@@ -11,48 +11,42 @@ use App\Helpers\Helper;
 //Models
 use App\Models\course\Programcode;
 use App\Models\cms\Subject;
+use App\Models\cms\LectureSchedule;
 use App\Models\lead_management\Student;
 
-class LectureSchedule extends Model
+class LectureStudentPresent extends Model
 {
     use HasFactory;
 
-    protected $table = 'lecture_schedules';
+    protected $table = 'lecture_student_presents';
 
     protected $fillable = [
         'unique_id',
         'programcode_id',
         'subject_id',
+        'lecture_id',
+        'student_id',
         'lecture_date',
-        'lecture_time',
-        'status', // 'Active','Inactive'
-        'sort_order',
+        'status', // 'Present','Absent'
 
     ];
 
     public $columnTitles = [
         'lecture_date' => 'Lecture Date',
-        'lecture_time' => 'Lecture Time',
         'status' => 'Status',
     ];
 
     private static $searchColumns = [
         'all' => 'All',
-        'lecture_schedules.unique_id' => 'Unique ID',
-        'lecture_schedules.lecture_date' => 'Date',
-        'lecture_schedules.lecture_time' => 'Date',
+        'lecture_student_presents.unique_id' => 'Unique ID',
+        'lecture_student_presents.lecture_date' => 'Date',
     ];
 
 
     // Scopes
-    public function scopeOrder($query)
-    {
-        return $query->orderBy($this->table . '.sort_order', 'ASC');
-    }
-
     public function scopeActive($query)
     {
-        return $query->where($this->table . '.status', 'Active');
+        return $query->where($this->table . '.status', 'Present');
     }
 
     //Foreign Ref
@@ -63,6 +57,14 @@ class LectureSchedule extends Model
     public function subject()
     {
         return $this->belongsTo(Subject::class, 'subject_id', 'id');
+    }
+    public function student()
+    {
+        return $this->belongsTo(Student::class, 'student_id', 'id');
+    }
+    public function lecture_schedule()
+    {
+        return $this->belongsTo(LectureSchedule::class, 'lecture_id', 'id');
     }
 
     public static function boot()
@@ -83,11 +85,11 @@ class LectureSchedule extends Model
         }
 
         if (isset($params['programcode_id']) && $params['programcode_id'] != null && $params['programcode_id'] != '') {
-            $query->where('lecture_schedules.programcode_id', $params['programcode_id']);
+            $query->where('lecture_student_presents.programcode_id', $params['programcode_id']);
         }
 
         if (isset($params['subject_id']) && $params['subject_id'] != null && $params['subject_id'] != '') {
-            $query->where('lecture_schedules.subject_id', $params['subject_id']);
+            $query->where('lecture_student_presents.subject_id', $params['subject_id']);
         }
 
         //$query->with(['media']);
@@ -103,11 +105,6 @@ class LectureSchedule extends Model
         return $list;
     }
 
-    public function student($programcode_id) 
-    {
-        $student_list = Student::where('programcode_id',$programcode_id)->get();
-        return $student_list;
-    }
     /*
     * Function Name     :   getActivityTitle
     * Use               :   Use for Activity Log
