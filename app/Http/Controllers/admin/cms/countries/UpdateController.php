@@ -32,7 +32,10 @@ class UpdateController extends Controller
      */
     public function __invoke($id, UpdateRequest $request)
     {
-        
+        if(!Helper::checkPermission('countries.edit')){
+            return redirect()->route('admin-dashboard');
+        }
+
         $user_item = Auth::user();
 
         $item = Country::where('id', $id)->firstOrFail();

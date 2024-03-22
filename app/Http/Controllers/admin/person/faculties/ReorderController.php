@@ -21,7 +21,10 @@ class ReorderController extends Controller
      */
     public function __invoke(Request $request)
     {
-        
+        if(!Helper::checkPermission('faculties.edit')){
+            return redirect()->route('admin-dashboard');
+        }
+
         $list = Faculty::orderBy('sort_order', 'ASC')->get();
         return view('admin.person.faculties.reorder', [
             'list' => $list

@@ -29,16 +29,18 @@
             <div class="card-toolbar">
                 <div class="d-flex justify-content-end" data-kt-user-table-toolbar="base">
                     <?php echo $__env->make('admin.cms.subjects._filter', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
-                    <a href="<?php echo e(route('reorder-subject')); ?>" class="btn btn-warning me-3"><i
+                    <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('subjects.edit')): ?>
+                        <a href="<?php echo e(route('reorder-subject')); ?>" class="btn btn-warning me-3"><i
                             class="fas fa-list fs-4 me-1"></i>
                         Reorder</a>
-                    <a href="<?php echo e(route('create-subject')); ?>" class="btn btn-dark"><i
+                    <?php endif; ?>
+                    <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('subjects.add')): ?>
+                        <a href="<?php echo e(route('create-subject')); ?>" class="btn btn-dark"><i
                             class="fas fa-plus fs-4 me-1"></i>
                         Create</a>
-                   
+                    <?php endif; ?>
                 </div>
             </div>
-
         </div>
 
         <div class="card-body py-4">
@@ -79,7 +81,6 @@
                         </tr>
                     </thead>
 
-
                     <tbody class="text-gray-600 fw-bold">
                         <?php $__currentLoopData = $list; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                             <tr>
@@ -103,8 +104,6 @@
                                     <?php echo \App\Helpers\Helper::showBadge($item->status); ?>
 
                                 </td>
-
-
                                 <td class="text-end">
 
                                     <a href="#" class="btn btn-light btn-active-light-primary btn-sm"
@@ -114,25 +113,26 @@
 
                                     <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fs-7 w-150px py-4"
                                         data-kt-menu="true">
-                                        <div class="menu-item px-3">
-                                            <a href="<?php echo e(route('edit-subject', ['unique_id' => $item->unique_id])); ?>"
-                                                class="menu-link px-3">
-                                                <i class="fas fa-edit me-3"></i> Edit</a>
-                                        </div>
-                                        <div class="menu-item px-3">
-                                            <a href="<?php echo e(route('delete-subject', ['unique_id' => $item->unique_id])); ?>"
-                                                data-token="<?php echo e(csrf_token()); ?>" class="menu-link px-3 delete-item-btn"
-                                                data-kt-users-table-filter="delete_row"><i
-                                                    class="fas fa-trash me-3"></i>Delete</a>
-                                        </div>
+                                        <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('subjects.edit')): ?>
+                                            <div class="menu-item px-3">
+                                                <a href="<?php echo e(route('edit-subject', ['unique_id' => $item->unique_id])); ?>"
+                                                    class="menu-link px-3">
+                                                    <i class="fas fa-edit me-3"></i> Edit</a>
+                                            </div>
+                                        <?php endif; ?>
+                                        <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('subjects.delete')): ?>
+                                            <div class="menu-item px-3">
+                                                <a href="<?php echo e(route('delete-subject', ['unique_id' => $item->unique_id])); ?>"
+                                                    data-token="<?php echo e(csrf_token()); ?>" class="menu-link px-3 delete-item-btn"
+                                                    data-kt-users-table-filter="delete_row"><i
+                                                        class="fas fa-trash me-3"></i>Delete</a>
+                                            </div>
+                                        <?php endif; ?>
                                     </div>
-
                                 </td>
-
                             </tr>
                         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                     </tbody>
-
                 </table>
             <?php else: ?>
                 <div class="alert alert-warning d-flex align-items-center p-5 mb-10">

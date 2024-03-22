@@ -10,6 +10,7 @@ use App\Helpers\Helper;
 
 // Models
 use App\Models\iam\personnel\User;
+use App\Models\iam\Role;
 
 class IndexController extends Controller
 {
@@ -26,6 +27,7 @@ class IndexController extends Controller
 
         $list = User::getAdminList($params);
 
+        $role_list = Role::pluck('name','id');
 
         if ($request->has('page') && $request->get('page') > 1 && $list->count() <= 0) {
             $params['page'] = $params['page'] - 1;
@@ -36,6 +38,7 @@ class IndexController extends Controller
         return view('admin.iam.personnel.index', [
             'list' => $list,
             'params' => $params,
+            'role_list' => $role_list,
         ]);
     }
 }

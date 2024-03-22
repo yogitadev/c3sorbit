@@ -29,11 +29,11 @@
             <div class="card-toolbar">
                 <div class="d-flex justify-content-end" data-kt-user-table-toolbar="base">
                     <?php echo $__env->make('admin.iam.personnel._filter', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
-                   
-                    <a href="<?php echo e(route('create-personnel')); ?>" class="btn btn-dark"><i
+                    <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('personnels.add')): ?>
+                        <a href="<?php echo e(route('create-personnel')); ?>" class="btn btn-dark"><i
                             class="fas fa-plus fs-4 me-1"></i>
                         Create</a>
-                   
+                    <?php endif; ?>
                 </div>
             </div>
 
@@ -66,10 +66,12 @@
                                     ]); ?>
 
                                 </th>
+                                <th class="min-w-125px">
+                                        Role
+                                </th>
                                 <th class="text-end min-w-100px">Actions</th>
                             </tr>
                         </thead>
-    
     
                         <tbody class="text-gray-600 fw-bold">
                             <?php $__currentLoopData = $list; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
@@ -86,7 +88,11 @@
                                         <?php echo e($item->username); ?>
 
                                     </td>
-    
+                                    <td>
+                                        <?php echo e($item->role->name ?? '-'); ?>
+
+                                    </td>    
+
                                     <td class="text-end">
     
                                         <a href="#" class="btn btn-light btn-active-light-primary btn-sm"
@@ -128,10 +134,7 @@
                 </div>
 
             <?php endif; ?>
-
-
         </div>
-
 
         <?php if($list->hasPages()): ?>
             <div class="card-footer py-4">
@@ -141,11 +144,7 @@
                 </div>
             </div>
         <?php endif; ?>
-
-
     </div>
-
-
 
 <?php $__env->stopSection(); ?>
 

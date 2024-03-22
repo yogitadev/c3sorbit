@@ -31,6 +31,10 @@ class UpdateController extends Controller
      */
     public function __invoke($unique_id, UpdateRequest $request)
     {
+        if(!Helper::checkPermission('personnels.edit')){
+            return redirect()->route('admin-dashboard');
+        }
+        
         $user_item = Auth::user();
 
         $item = User::where('unique_id', $unique_id)->firstOrFail();

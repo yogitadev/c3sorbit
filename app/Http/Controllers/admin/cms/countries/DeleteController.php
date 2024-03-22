@@ -25,6 +25,10 @@ class DeleteController extends Controller
      */
     public function __invoke($id, Request $request)
     {
+        if(!Helper::checkPermission('countries.delete')){
+            return redirect()->route('admin-dashboard');
+        }
+        
         $user_item = Auth::user();
 
         $item = Country::where('id', $id)->firstOrFail();

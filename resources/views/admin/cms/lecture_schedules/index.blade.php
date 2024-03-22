@@ -31,13 +31,16 @@
             <div class="card-toolbar">
                 <div class="d-flex justify-content-end" data-kt-user-table-toolbar="base">
                     @include ('admin.cms.lecture_schedules._filter')
-                    <a href="{{ route('reorder-lecture-schedule') }}" class="btn btn-warning me-3"><i
+                    @can('lecture_schedules.edit')
+                        <a href="{{ route('reorder-lecture-schedule') }}" class="btn btn-warning me-3"><i
                             class="fas fa-list fs-4 me-1"></i>
                         Reorder</a>
+                    @endcan
+                    @can('lecture_schedules.add')
                     <a href="{{ route('create-lecture-schedule') }}" class="btn btn-dark"><i
                             class="fas fa-plus fs-4 me-1"></i>
                         Create</a>
-                   
+                    @endcan
                 </div>
             </div>
 
@@ -79,7 +82,6 @@
                         </tr>
                     </thead>
 
-
                     <tbody class="text-gray-600 fw-bold">
                         @foreach ($list as $item)
                             <tr>
@@ -98,8 +100,6 @@
                                 <td>
                                     {!! \App\Helpers\Helper::showBadge($item->status) !!}
                                 </td>
-
-
                                 <td class="text-end">
 
                                     <a href="#" class="btn btn-light btn-active-light-primary btn-sm"
@@ -109,21 +109,23 @@
 
                                     <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fs-7 w-150px py-4"
                                         data-kt-menu="true">
-                                        <div class="menu-item px-3">
-                                            <a href="{{ route('edit-lecture-schedule', ['unique_id' => $item->unique_id]) }}"
-                                                class="menu-link px-3">
-                                                <i class="fas fa-edit me-3"></i> Edit</a>
-                                        </div>
-                                        <div class="menu-item px-3">
-                                            <a href="{{ route('delete-lecture-schedule', ['unique_id' => $item->unique_id]) }}"
-                                                data-token="{{ csrf_token() }}" class="menu-link px-3 delete-item-btn"
-                                                data-kt-users-table-filter="delete_row"><i
-                                                    class="fas fa-trash me-3"></i>Delete</a>
-                                        </div>
+                                        @can('lecture_schedules.edit')
+                                            <div class="menu-item px-3">
+                                                <a href="{{ route('edit-lecture-schedule', ['unique_id' => $item->unique_id]) }}"
+                                                    class="menu-link px-3">
+                                                    <i class="fas fa-edit me-3"></i> Edit</a>
+                                            </div>
+                                        @endcan
+                                        @can('lecture_schedules.delete')
+                                            <div class="menu-item px-3">
+                                                <a href="{{ route('delete-lecture-schedule', ['unique_id' => $item->unique_id]) }}"
+                                                    data-token="{{ csrf_token() }}" class="menu-link px-3 delete-item-btn"
+                                                    data-kt-users-table-filter="delete_row"><i
+                                                        class="fas fa-trash me-3"></i>Delete</a>
+                                            </div>
+                                        @endcan
                                     </div>
-
                                 </td>
-
                             </tr>
                         @endforeach
                     </tbody>

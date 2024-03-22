@@ -21,6 +21,10 @@ class EditController extends Controller
      */
     public function __invoke($unique_id, Request $request)
     {
+        if(!Helper::checkPermission('awarding_bodys.edit')){
+            return redirect()->route('admin-dashboard');
+        }
+        
         $item = AwardingBody::where('unique_id', $unique_id)->first();
 
         return view('admin.cms.awarding_bodys.edit', [

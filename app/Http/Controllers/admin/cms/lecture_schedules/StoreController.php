@@ -28,7 +28,10 @@ class StoreController extends Controller
      */
     public function __invoke(StoreRequest $request)
     {
-        
+        if(!Helper::checkPermission('lecture_schedules.add')){
+            return redirect()->route('admin-dashboard');
+        }
+
         $user_item = Auth::user();
 
         $lecture_schedule_item = StoreAction::make()->handle($request);

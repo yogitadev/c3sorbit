@@ -21,6 +21,9 @@ class EditController extends Controller
      */
     public function __invoke($unique_id, Request $request)
     {
+        if(!Helper::checkPermission('faculties.edit')){
+            return redirect()->route('admin-dashboard');
+        }
 
         $item = Faculty::where('unique_id', $unique_id)->first();
 

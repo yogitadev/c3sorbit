@@ -23,6 +23,9 @@ class ReorderController extends Controller
      */
     public function __invoke(Request $request)
     {
+        if(!Helper::checkPermission('programcodes.edit')){
+            return redirect()->route('admin-dashboard');
+        }
         
         $institution_list = Institution::order()->pluck('name', 'id');
         $data = [

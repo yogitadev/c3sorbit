@@ -22,6 +22,10 @@ class ReorderController extends Controller
      */
     public function __invoke(Request $request)
     {
+        if(!Helper::checkPermission('subjects.edit')){
+            return redirect()->route('admin-dashboard');
+        }
+
         $programcode_list = Programcode::order()->pluck('program_name', 'id');
         $data = [
             'programcode_list' => $programcode_list

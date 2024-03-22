@@ -32,6 +32,10 @@ class StoreController extends Controller
     public function __invoke(StoreRequest $request)
     {
 
+        if(!Helper::checkPermission('campus.add')){
+            return redirect()->route('admin-dashboard');
+        }
+        
         $user_item = Auth::user();
 
         $campus_item = StoreAction::make()->handle($request);

@@ -31,6 +31,10 @@ class StoreController extends Controller
      */
     public function __invoke(StoreRequest $request)
     {
+        if(!Helper::checkPermission('programcodes.add')){
+            return redirect()->route('admin-dashboard');
+        }
+        
         $user_item = Auth::user();
 
         $programcode_item = StoreAction::make()->handle($request);

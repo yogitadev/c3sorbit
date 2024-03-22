@@ -24,6 +24,10 @@ class ReorderController extends Controller
      */
     public function __invoke(Request $request)
     {
+        if(!Helper::checkPermission('assignment.edit')){
+            return redirect()->route('admin-dashboard');
+        }
+
         $faculty_list = Faculty::order()->select(DB::raw("CONCAT(first_name, ' ', last_name) AS full_name"),"id")->where('status','Active')->pluck("full_name","id");
         $data = [
             'faculty_list' => $faculty_list,

@@ -21,6 +21,9 @@ class ReorderController extends Controller
      */
     public function __invoke(Request $request)
     {
+        if(!Helper::checkPermission('awarding_bodys.edit')){
+            return redirect()->route('admin-dashboard');
+        }
         
         $list = AwardingBody::orderBy('sort_order', 'ASC')->get();
         return view('admin.cms.awarding_bodys.reorder', [

@@ -35,6 +35,10 @@ $all_events = [
    
     /*Iam */
 
+    'roles' => include(base_path('app/Events/config/admin/iam/roles/index.php')),
+
+    'modules' => include(base_path('app/Events/config/admin/iam/modules/index.php')),
+    
     'users' => include(base_path('app/Events/config/admin/iam/personnel/index.php')),
 
     

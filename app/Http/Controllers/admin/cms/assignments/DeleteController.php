@@ -25,6 +25,10 @@ class DeleteController extends Controller
      */
     public function __invoke($unique_id, Request $request)
     {
+        if(!Helper::checkPermission('assignment.delete')){
+            return redirect()->route('admin-dashboard');
+        }
+
         $user_item = Auth::user();
 
         $item = Assignment::where('unique_id', $unique_id)->firstOrFail();

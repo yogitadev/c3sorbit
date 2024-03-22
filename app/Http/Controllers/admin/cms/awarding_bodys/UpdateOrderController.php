@@ -25,6 +25,9 @@ class UpdateOrderController extends Controller
      */
     public function __invoke(Request $request)
     {
+        if(!Helper::checkPermission('awarding_bodys.edit')){
+            return redirect()->route('admin-dashboard');
+        }
         
         $user_item = Auth::user();
 

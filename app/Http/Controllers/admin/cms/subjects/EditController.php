@@ -24,7 +24,9 @@ class EditController extends Controller
      */
     public function __invoke($unique_id, Request $request)
     {
-
+        if(!Helper::checkPermission('subjects.edit')){
+            return redirect()->route('admin-dashboard');
+        }
         $item = Subject::where('unique_id', $unique_id)->first();
 
         $program_list = Programcode::pluck('program_name','id');

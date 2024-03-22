@@ -31,6 +31,10 @@ class UpdateController extends Controller
      */
     public function __invoke($unique_id, UpdateRequest $request)
     {
+        if(!Helper::checkPermission('institutions.edit')){
+            return redirect()->route('admin-dashboard');
+        }
+        
         $user_item = Auth::user();
 
         $item = Institution::where('unique_id', $unique_id)->with(['media'])->firstOrFail();

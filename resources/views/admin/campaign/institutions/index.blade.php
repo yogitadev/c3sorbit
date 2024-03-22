@@ -31,12 +31,16 @@
             <div class="card-toolbar">
                 <div class="d-flex justify-content-end" data-kt-user-table-toolbar="base">
                     @include ('admin.campaign.institutions._filter')
-                    <a href="{{ route('reorder-institution') }}" class="btn btn-warning me-3"><i
+                    @can('institutions.edit')
+                        <a href="{{ route('reorder-institution') }}" class="btn btn-warning me-3"><i
                             class="fas fa-list fs-4 me-1"></i>
                         Reorder</a>
-                    <a href="{{ route('create-institution') }}" class="btn btn-dark"><i
+                    @endcan
+                    @can('institutions.add')
+                        <a href="{{ route('create-institution') }}" class="btn btn-dark"><i
                             class="fas fa-plus fs-4 me-1"></i>
                         Create</a>
+                    @endcan
                 </div>
             </div>
 
@@ -52,38 +56,35 @@
                             <th class="min-w-100px">Unique ID</th>
                             <th class="min-w-125px">
                                 {!! \App\Helpers\Helper::getColumnSortLink([
-    'url' => route('institution-list'),
-    'column_title' => 'Name',
-    'column_name' => 'name',
-    'params' => $params,
-]) !!}
+                                    'url' => route('institution-list'),
+                                    'column_title' => 'Name',
+                                    'column_name' => 'name',
+                                    'params' => $params,
+                                ]) !!}
                             </th>
                             <th class="min-w-125px">
                             {!! \App\Helpers\Helper::getColumnSortLink([
-    'url' => route('institution-list'),
-    'column_title' => 'Email',
-    'column_name' => 'email',
-    'params' => $params,
-]) !!}
+                                'url' => route('institution-list'),
+                                'column_title' => 'Email',
+                                'column_name' => 'email',
+                                'params' => $params,
+                            ]) !!}
                             </th>
                             <th class="min-w-125px">
                                 {!! \App\Helpers\Helper::getColumnSortLink([
-    'url' => route('institution-list'),
-    'column_title' => 'Status',
-    'column_name' => 'status',
-    'params' => $params,
-]) !!}
+                                    'url' => route('institution-list'),
+                                    'column_title' => 'Status',
+                                    'column_name' => 'status',
+                                    'params' => $params,
+                                ]) !!}
                             </th>
                             <th class="text-end min-w-100px">Actions</th>
                         </tr>
                     </thead>
 
-
                     <tbody class="text-gray-600 fw-bold">
                         @foreach ($list as $item)
                             <tr>
-
-
                                 <td>
                                     {{ $item->unique_id }}
                                 </td>
@@ -96,8 +97,6 @@
                                 <td>
                                     {!! \App\Helpers\Helper::showBadge($item->status) !!}
                                 </td>
-
-
                                 <td class="text-end">
 
                                     <a href="#" class="btn btn-light btn-active-light-primary btn-sm"
@@ -107,25 +106,26 @@
 
                                     <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fs-7 w-150px py-4"
                                         data-kt-menu="true">
-                                        <div class="menu-item px-3">
-                                            <a href="{{ route('edit-institution', ['unique_id' => $item->unique_id]) }}"
-                                                class="menu-link px-3">
-                                                <i class="fas fa-edit me-3"></i> Edit</a>
-                                        </div>
-                                        <div class="menu-item px-3">
-                                            <a href="{{ route('delete-institution', ['unique_id' => $item->unique_id]) }}"
-                                                data-token="{{ csrf_token() }}" class="menu-link px-3 delete-item-btn"
-                                                data-kt-users-table-filter="delete_row"><i
-                                                    class="fas fa-trash me-3"></i>Delete</a>
-                                        </div>
+                                        @can('institutions.edit')
+                                            <div class="menu-item px-3">
+                                                <a href="{{ route('edit-institution', ['unique_id' => $item->unique_id]) }}"
+                                                    class="menu-link px-3">
+                                                    <i class="fas fa-edit me-3"></i> Edit</a>
+                                            </div>
+                                        @endcan
+                                        @can('institutions.delete')
+                                            <div class="menu-item px-3">
+                                                <a href="{{ route('delete-institution', ['unique_id' => $item->unique_id]) }}"
+                                                    data-token="{{ csrf_token() }}" class="menu-link px-3 delete-item-btn"
+                                                    data-kt-users-table-filter="delete_row"><i
+                                                        class="fas fa-trash me-3"></i>Delete</a>
+                                            </div>
+                                        @endcan
                                     </div>
-
                                 </td>
-
                             </tr>
                         @endforeach
                     </tbody>
-
                 </table>
             @else
                 <div class="alert alert-warning d-flex align-items-center p-5 mb-10">
@@ -138,8 +138,6 @@
                 </div>
 
             @endif
-
-
         </div>
 
 
@@ -150,10 +148,5 @@
                 </div>
             </div>
         @endif
-
-
     </div>
-
-
-
 @endsection

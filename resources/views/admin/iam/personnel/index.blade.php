@@ -31,11 +31,11 @@
             <div class="card-toolbar">
                 <div class="d-flex justify-content-end" data-kt-user-table-toolbar="base">
                     @include ('admin.iam.personnel._filter')
-                   
-                    <a href="{{ route('create-personnel') }}" class="btn btn-dark"><i
+                    @can('personnels.add')
+                        <a href="{{ route('create-personnel') }}" class="btn btn-dark"><i
                             class="fas fa-plus fs-4 me-1"></i>
                         Create</a>
-                   
+                    @endcan
                 </div>
             </div>
 
@@ -66,10 +66,12 @@
                                         'params' => $params,
                                     ]) !!}
                                 </th>
+                                <th class="min-w-125px">
+                                        Role
+                                </th>
                                 <th class="text-end min-w-100px">Actions</th>
                             </tr>
                         </thead>
-    
     
                         <tbody class="text-gray-600 fw-bold">
                             @foreach ($list as $item)
@@ -83,7 +85,10 @@
                                     <td>
                                         {{ $item->username }}
                                     </td>
-    
+                                    <td>
+                                        {{ $item->role->name ?? '-'}}
+                                    </td>    
+
                                     <td class="text-end">
     
                                         <a href="#" class="btn btn-light btn-active-light-primary btn-sm"
@@ -125,10 +130,7 @@
                 </div>
 
             @endif
-
-
         </div>
-
 
         @if ($list->hasPages())
             <div class="card-footer py-4">
@@ -137,10 +139,6 @@
                 </div>
             </div>
         @endif
-
-
     </div>
-
-
 
 @endsection

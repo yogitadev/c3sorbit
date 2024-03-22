@@ -25,6 +25,10 @@ class UpdateOrderController extends Controller
      */
     public function __invoke(Request $request)
     {
+        if(!Helper::checkPermission('lecture_schedules.edit')){
+            return redirect()->route('admin-dashboard');
+        }
+
         $user_item = Auth::user();
 
         if ($request->has('items') && count($request->get('items')) > 0) {

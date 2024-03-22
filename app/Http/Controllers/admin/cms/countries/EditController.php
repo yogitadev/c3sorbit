@@ -21,7 +21,10 @@ class EditController extends Controller
      */
     public function __invoke($id, Request $request)
     {
-
+        if(!Helper::checkPermission('countries.edit')){
+            return redirect()->route('admin-dashboard');
+        }
+        
         $item = Country::where('id', $id)->first();
 
         return view('admin.cms.countries.edit', [

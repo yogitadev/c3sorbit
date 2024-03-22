@@ -25,6 +25,10 @@ class DeleteController extends Controller
      */
     public function __invoke($unique_id, Request $request)
     {
+        if(!Helper::checkPermission('faculties.delete')){
+            return redirect()->route('admin-dashboard');
+        }
+
         $user_item = Auth::user();
 
         $item = Faculty::where('unique_id', $unique_id)->firstOrFail();

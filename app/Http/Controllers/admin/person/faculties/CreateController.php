@@ -18,7 +18,9 @@ class CreateController extends Controller
      */
     public function __invoke(Request $request)
     {
-
+        if(!Helper::checkPermission('faculties.add')){
+            return redirect()->route('admin-dashboard');
+        }
         return view('admin.person.faculties.create', []);
     }
 }

@@ -15,6 +15,12 @@ use Illuminate\Support\Facades\Route;
 
 Route::group(['prefix' => 'iam'], function ($router) {
 
+    // Roles
+    require base_path('routes/admin/iam/roles/routes.php');
+
+    // Modules
+    require base_path('routes/admin/iam/modules/routes.php');
+    
     //Personnel
     require base_path('routes/admin/iam/personnel/routes.php');
 });

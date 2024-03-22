@@ -32,14 +32,16 @@
             <div class="card-toolbar">
                 <div class="d-flex justify-content-end" data-kt-user-table-toolbar="base">
                     @include ('admin.person.faculties._filter')
-                    <a href="{{ route('reorder-faculty') }}" class="btn btn-warning me-3"><i
+                    @can('faculties.edit')
+                        <a href="{{ route('reorder-faculty') }}" class="btn btn-warning me-3"><i
                             class="fas fa-list fs-4 me-1"></i>
                         Reorder</a>
-                
-                    <a href="{{ route('create-faculty') }}" class="btn btn-dark"><i
+                    @endcan
+                    @can('faculties.add')
+                        <a href="{{ route('create-faculty') }}" class="btn btn-dark"><i
                             class="fas fa-plus fs-4 me-1"></i>
                         Create</a>
-                    
+                    @endcan
                 </div>
             </div>
 
@@ -72,7 +74,6 @@
                         </tr>
                     </thead>
 
-
                     <tbody class="text-gray-600 fw-bold">
                         @foreach ($list as $item)
                             <tr>
@@ -104,22 +105,21 @@
 
                                     <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fs-7 w-150px py-4"
                                         data-kt-menu="true">
-                                        <div class="menu-item px-3">
-                                            <a href="{{ route('view-faculty', ['unique_id' => $item->unique_id]) }}"
-                                                class="menu-link px-3">
-                                                <i class="fas fa-eye me-3"></i> View</a>
-                                        </div>
-                                        <div class="menu-item px-3">
-                                            <a href="{{ route('edit-faculty', ['unique_id' => $item->unique_id]) }}"
-                                                class="menu-link px-3">
-                                                <i class="fas fa-edit me-3"></i> Edit</a>
-                                        </div>
-                                        <div class="menu-item px-3">
-                                            <a href="{{ route('delete-faculty', ['unique_id' => $item->unique_id]) }}"
-                                                data-token="{{ csrf_token() }}" class="menu-link px-3 delete-item-btn"
-                                                data-kt-users-table-filter="delete_row"><i
-                                                    class="fas fa-trash me-3"></i>Delete</a>
-                                        </div>
+                                        @can('faculties.edit')
+                                            <div class="menu-item px-3">
+                                                <a href="{{ route('edit-faculty', ['unique_id' => $item->unique_id]) }}"
+                                                    class="menu-link px-3">
+                                                    <i class="fas fa-edit me-3"></i> Edit</a>
+                                            </div>
+                                        @endcan
+                                        @can('faculties.delete')
+                                            <div class="menu-item px-3">
+                                                <a href="{{ route('delete-faculty', ['unique_id' => $item->unique_id]) }}"
+                                                    data-token="{{ csrf_token() }}" class="menu-link px-3 delete-item-btn"
+                                                    data-kt-users-table-filter="delete_row"><i
+                                                        class="fas fa-trash me-3"></i>Delete</a>
+                                            </div>
+                                        @endcan
                                     </div>
 
                                 </td>

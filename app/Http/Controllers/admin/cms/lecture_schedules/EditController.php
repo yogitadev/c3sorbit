@@ -23,6 +23,10 @@ class EditController extends Controller
      */
     public function __invoke($unique_id, Request $request)
     {
+        if(!Helper::checkPermission('lecture_schedules.edit')){
+            return redirect()->route('admin-dashboard');
+        }
+
         $params = $request->all();
         
         $item = LectureSchedule::where('unique_id', $unique_id)->first();

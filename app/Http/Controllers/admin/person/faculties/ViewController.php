@@ -21,6 +21,9 @@ class ViewController extends Controller
      */
     public function __invoke($unique_id, Request $request)
     {
+        if(!Helper::checkPermission('faculties.view')){
+            return redirect()->route('admin-dashboard');
+        }
 
         $faculty_item = Faculty::where('unique_id', $unique_id)->first();
 

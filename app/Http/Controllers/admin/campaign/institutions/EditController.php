@@ -21,6 +21,10 @@ class EditController extends Controller
      */
     public function __invoke($unique_id, Request $request)
     {
+        if(!Helper::checkPermission('institutions.edit')){
+            return redirect()->route('admin-dashboard');
+        }
+        
         $item = Institution::where('unique_id', $unique_id)->first();
 
         return view('admin.campaign.institutions.edit', [

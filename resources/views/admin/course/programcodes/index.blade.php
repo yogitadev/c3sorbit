@@ -32,14 +32,16 @@
             <div class="card-toolbar">
                 <div class="d-flex justify-content-end" data-kt-user-table-toolbar="base">
                     @include ('admin.course.programcodes._filter')
-                    <a href="{{ route('reorder-programcode') }}" class="btn btn-warning me-3"><i
-                            class="fas fa-list fs-4 me-1"></i>
-                        Reorder</a>
-                
-                    <a href="{{ route('create-programcode') }}" class="btn btn-dark"><i
-                            class="fas fa-plus fs-4 me-1"></i>
-                        Create</a>
-                    
+                    @can('programcodes.edit')
+                        <a href="{{ route('reorder-programcode') }}" class="btn btn-warning me-3"><i
+                                class="fas fa-list fs-4 me-1"></i>
+                            Reorder</a>
+                    @endcan
+                    @can('programcodes.add')
+                        <a href="{{ route('create-programcode') }}" class="btn btn-dark"><i
+                                class="fas fa-plus fs-4 me-1"></i>
+                            Create</a>
+                    @endcan
                 </div>
             </div>
 
@@ -117,17 +119,21 @@
 
                                     <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fs-7 w-150px py-4"
                                         data-kt-menu="true">
-                                        <div class="menu-item px-3">
-                                            <a href="{{ route('edit-programcode', ['unique_id' => $item->unique_id]) }}"
-                                                class="menu-link px-3">
-                                                <i class="fas fa-edit me-3"></i> Edit</a>
-                                        </div>
-                                        <div class="menu-item px-3">
-                                            <a href="{{ route('delete-programcode', ['unique_id' => $item->unique_id]) }}"
-                                                data-token="{{ csrf_token() }}" class="menu-link px-3 delete-item-btn"
-                                                data-kt-users-table-filter="delete_row"><i
-                                                    class="fas fa-trash me-3"></i>Delete</a>
-                                        </div>
+                                        @can('programcodes.edit')
+                                            <div class="menu-item px-3">
+                                                <a href="{{ route('edit-programcode', ['unique_id' => $item->unique_id]) }}"
+                                                    class="menu-link px-3">
+                                                    <i class="fas fa-edit me-3"></i> Edit</a>
+                                            </div>
+                                        @endcan
+                                        @can('programcodes.delete')
+                                            <div class="menu-item px-3">
+                                                <a href="{{ route('delete-programcode', ['unique_id' => $item->unique_id]) }}"
+                                                    data-token="{{ csrf_token() }}" class="menu-link px-3 delete-item-btn"
+                                                    data-kt-users-table-filter="delete_row"><i
+                                                        class="fas fa-trash me-3"></i>Delete</a>
+                                            </div>
+                                        @endcan
                                     </div>
 
                                 </td>

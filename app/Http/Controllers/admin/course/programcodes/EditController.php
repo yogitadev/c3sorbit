@@ -24,7 +24,10 @@ class EditController extends Controller
      */
     public function __invoke($unique_id, Request $request)
     {
-
+        if(!Helper::checkPermission('programcodes.edit')){
+            return redirect()->route('admin-dashboard');
+        }
+        
         $item = Programcode::where('unique_id', $unique_id)->first();
 
         $institution_list = Institution::pluck('name','id');

@@ -23,6 +23,10 @@ class CreateController extends Controller
      */
     public function __invoke(Request $request)
     {
+        if(!Helper::checkPermission('assignment.add')){
+            return redirect()->route('admin-dashboard');
+        }
+
         $subject_list = Subject::pluck('name','id');
         $faculty_list = Faculty::select(DB::raw("CONCAT(first_name, ' ', last_name) AS full_name"),"id")->where('status','Active')->pluck("full_name","id");
 

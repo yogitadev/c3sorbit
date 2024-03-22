@@ -18,7 +18,10 @@ class CreateController extends Controller
      */
     public function __invoke(Request $request)
     {
-
+        if(!Helper::checkPermission('countries.add')){
+            return redirect()->route('admin-dashboard');
+        }
+        
         return view('admin.cms.countries.create', []);
     }
 }

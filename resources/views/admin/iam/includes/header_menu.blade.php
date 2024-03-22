@@ -8,6 +8,20 @@
                 <span class="menu-title">Personnel</span>
             </a>
         </div>
+        <div
+            class="menu-item ms-2 here {{ Request::is('admin/iam/modules') || Request::is('admin/iam/modules/*') ? 'show' : '' }}">
+            <a class="menu-link py-3" href="{{ route('module-list') }}">
+                <span class="menu-title">Modules</span>
+            </a>
+        </div>
+
+        <div
+            class="menu-item ms-2 here {{ Request::is('admin/iam/roles') || Request::is('admin/iam/roles/*') ? 'show' : '' }}">
+            <a class="menu-link py-3" href="{{ route('role-list') }}">
+                <span class="menu-title">Roles</span>
+            </a>
+        </div>
+
 
     </div>
     <!--end::Menu-->

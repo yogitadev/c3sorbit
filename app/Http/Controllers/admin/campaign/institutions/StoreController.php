@@ -31,6 +31,9 @@ class StoreController extends Controller
      */
     public function __invoke(StoreRequest $request)
     {
+        if(!Helper::checkPermission('institutions.add')){
+            return redirect()->route('admin-dashboard');
+        }
         
         $user_item = Auth::user();
 

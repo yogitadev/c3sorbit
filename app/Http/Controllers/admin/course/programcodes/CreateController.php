@@ -22,7 +22,10 @@ class CreateController extends Controller
      */
     public function __invoke(Request $request)
     {
-
+        if(!Helper::checkPermission('programcodes.add')){
+            return redirect()->route('admin-dashboard');
+        }
+        
         $institution_list = Institution::pluck('name','id');
         $awarding_body_list = AwardingBody::pluck('title','id');
         $month_list = [];

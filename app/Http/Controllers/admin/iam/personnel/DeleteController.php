@@ -25,13 +25,15 @@ class DeleteController extends Controller
      */
     public function __invoke($unique_id, Request $request)
     {
-
+        if(!Helper::checkPermission('personnels.delete')){
+            return redirect()->route('admin-dashboard');
+        }
+        
         $user_item = Auth::user();
 
         $item = User::where('unique_id', $unique_id)->firstOrFail();
         $users_item_temp = $item;
         $item->deleted_at = now();
-        $item->status = 'Deleted';
         $item->save();
 
         // Call Event

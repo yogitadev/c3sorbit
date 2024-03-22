@@ -21,6 +21,10 @@ class ReorderController extends Controller
      */
     public function __invoke(Request $request)
     {
+        if(!Helper::checkPermission('institutions.edit')){
+            return redirect()->route('admin-dashboard');
+        }
+        
         $list = Institution::orderBy('sort_order', 'ASC')->get();
         return view('admin.campaign.institutions.reorder', [
             'list' => $list

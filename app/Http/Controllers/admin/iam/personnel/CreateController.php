@@ -11,15 +11,6 @@ use App\Helpers\Helper;
 
 // Models
 use App\Models\iam\Role;
-use App\Models\cms\Country;
-use App\Models\cms\State;
-use App\Models\cms\City;
-use App\Models\cms\Qualification;
-use App\Models\cms\JobType;
-use App\Models\cms\Designation;
-use App\Models\cms\Department;
-use App\Models\iam\personnel\User;
-use App\Models\cms\RegionManager;
 
 class CreateController extends Controller
 {
@@ -32,9 +23,14 @@ class CreateController extends Controller
     public function __invoke(Request $request)
     {
         $params = $request->all();
+        
+        if(!Helper::checkPermission('personnels.add')){
+            return redirect()->route('admin-dashboard');
+        }
 
+        $role_list = Role::pluck('name','id');
         return view('admin.iam.personnel.create', [
-           
+            'role_list'=>$role_list,
         ]);
     }
 }

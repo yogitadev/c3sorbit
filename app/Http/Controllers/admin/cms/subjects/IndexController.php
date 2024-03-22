@@ -24,7 +24,6 @@ class IndexController extends Controller
      */
     public function __invoke(Request $request)
     {
-        //
         $params = $request->all();
 
         $list = Subject::getAdminList($params);

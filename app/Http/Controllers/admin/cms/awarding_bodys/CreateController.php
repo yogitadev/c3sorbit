@@ -18,6 +18,10 @@ class CreateController extends Controller
      */
     public function __invoke(Request $request)
     {
+        if(!Helper::checkPermission('awarding_bodys.add')){
+            return redirect()->route('admin-dashboard');
+        }
+        
         return view('admin.cms.awarding_bodys.create', [
             
         ]);

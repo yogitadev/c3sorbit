@@ -25,6 +25,10 @@ class EditController extends Controller
     public function __invoke($unique_id, Request $request)
     {
 
+        if(!Helper::checkPermission('assignment.edit')){
+            return redirect()->route('admin-dashboard');
+        }
+
         $item = Assignment::where('unique_id', $unique_id)->first();
 
         $subject_list = Subject::where('faculty_id',$item->faculty_id)->pluck('name','id');

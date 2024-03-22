@@ -21,6 +21,9 @@ class ReorderController extends Controller
      */
     public function __invoke(Request $request)
     {
+        if(!Helper::checkPermission('countries.edit')){
+            return redirect()->route('admin-dashboard');
+        }
         
         $list = Country::orderBy('sort_order', 'ASC')->get();
         return view('admin.cms.countries.reorder', [

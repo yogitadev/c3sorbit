@@ -23,6 +23,10 @@ class CreateController extends Controller
      */
     public function __invoke(Request $request)
     {
+        if(!Helper::checkPermission('lecture_schedules.add')){
+            return redirect()->route('admin-dashboard');
+        }
+        
         $params = $request->all();
         $program_list = Programcode::pluck('program_name','id');
         $subject_list = Subject::pluck("name","id");

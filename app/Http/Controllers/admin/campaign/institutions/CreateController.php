@@ -18,7 +18,10 @@ class CreateController extends Controller
      */
     public function __invoke(Request $request)
     {
-
+        if(!Helper::checkPermission('institutions.add')){
+            return redirect()->route('admin-dashboard');
+        }
+        
         return view('admin.campaign.institutions.create', []);
     }
 }
