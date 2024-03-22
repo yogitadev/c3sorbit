@@ -9,6 +9,8 @@ use Illuminate\Database\Eloquent\Model;
 use App\Helpers\Helper;
 
 use App\Models\cms\Media;
+use App\Models\cms\Subject;
+use App\Models\person\Student;
 
 class Faculty extends Model
 {
@@ -105,6 +107,26 @@ class Faculty extends Model
             $list = $query->paginate($record_per_page, ['*'], 'page', $page_num);
         }
         return $list;
+    }
+
+    public function student($id) {
+        $subject = Subject::select('programcode_id')->distinct()->where('faculty_id', $id)->get();
+        $student_list = [];
+        if(count($subject) > 0) {
+            $subject_data = json_decode(json_encode($subject), true);
+            
+            foreach($subject_data as $subject) {
+                $student = Student::where('programcode_id',$subject['programcode_id'])->first();
+                if($student != null) {
+                    $student_data = json_decode(json_encode($student),true);
+                    $student_data['programcode_name'] = $student->programcode->program_name ?? '-';
+                    $student_data['subject_name'] = Helper::programcode_subject_name($subject['programcode_id']);
+                    $student_list[] = $student_data;
+                }
+            }
+        }
+        
+        return $student_list;
     }
 
     /*

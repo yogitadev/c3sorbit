@@ -1,45 +1,43 @@
 @extends('admin.layouts.layout')
 
-@section('page_title', 'Faculties')
+@section('page_title', 'Assignments')
 
 @section('sub_header')
     @php
     $breadcrumb_arr = [
-        'Faculties' => '',
+        'Assignments' => '',
     ];
     @endphp
     @include('admin.layouts.sub_header', [
-        'title' => 'Faculties',
+        'title' => 'Assignments',
         'breadcrumb_arr' => $breadcrumb_arr,
     ])
 @endsection
 
 
 @section('header-menu')
-    @include('admin.person.includes.header_menu')
+    @include('admin.cms.includes.header_menu')
 @endsection
 
 @section('content')
     @include('flash::message')
 
-
     <div class="card">
 
         <div class="card-header border-0 pt-6">
             <div class="card-title">
-                <h3 class="fw-bolder m-0">Faculties</h3>
+                <h3 class="fw-bolder m-0">Assignments</h3>
             </div>
             <div class="card-toolbar">
                 <div class="d-flex justify-content-end" data-kt-user-table-toolbar="base">
-                    @include ('admin.person.faculties._filter')
-                    <a href="{{ route('reorder-faculty') }}" class="btn btn-warning me-3"><i
+                    @include ('admin.cms.assignments._filter')
+                    <a href="{{ route('reorder-assignment') }}" class="btn btn-warning me-3"><i
                             class="fas fa-list fs-4 me-1"></i>
                         Reorder</a>
-                
-                    <a href="{{ route('create-faculty') }}" class="btn btn-dark"><i
+                    <a href="{{ route('create-assignment') }}" class="btn btn-dark"><i
                             class="fas fa-plus fs-4 me-1"></i>
                         Create</a>
-                    
+                   
                 </div>
             </div>
 
@@ -52,17 +50,26 @@
 
                     <thead>
                         <tr class="text-start text-muted fw-bolder fs-7 text-uppercase gs-0">
-                            <th class="min-w-100px">Unique ID</th>
-                            <th class="min-w-150px">
-                                Name
-                            </th>
-                            <th class="min-w-125px">
-                                Details
-                            </th>
-                            <th class="min-w-125px">Alternative Details</th>
                             <th class="min-w-125px">
                                 {!! \App\Helpers\Helper::getColumnSortLink([
-                                    'url' => route('faculty-list'),
+                                    'url' => route('assignment-list'),
+                                    'column_title' => 'Unique ID',
+                                    'column_name' => 'unique_id',
+                                    'params' => $params,
+                                ]) !!}
+                            </th>
+                            <th class="min-w-125px">
+                                Assignment Title
+                            </th>
+                            <th class="min-w-125px">
+                                Subject Name
+                            </th>
+                            <th class="min-w-125px">
+                                Faculty Name
+                            </th>
+                            <th class="min-w-125px">
+                                {!! \App\Helpers\Helper::getColumnSortLink([
+                                    'url' => route('assignment-list'),
                                     'column_title' => 'Status',
                                     'column_name' => 'status',
                                     'params' => $params,
@@ -80,20 +87,18 @@
                                     {{ $item->unique_id }}
                                 </td>
                                 <td>
-                                    {{ $item->first_name ?? '-'}} {{ $item->last_name ?? ''}} <br>
-                                    <b>Username:</b> {{ $item->username ?? '-'}}
+                                    {{ $item->assignment_title }}
                                 </td>
                                 <td>
-                                   {{$item->email ?? '-'}} <br>
-                                    {{ $item->mobile_number ?? '-'}}
+                                    {{ $item->subject->name ?? '-' }}
                                 </td>
                                 <td>
-                                    {{$item->altenative_email ?? '-'}} <br>
-                                    {{ $item->alternative_mobile_number ?? '-'}}
+                                    {{ $item->faculty->first_name ?? '-'}} {{ $item->faculty->last_name ?? ''}}
                                 </td>
                                 <td>
                                     {!! \App\Helpers\Helper::showBadge($item->status) !!}
                                 </td>
+
 
                                 <td class="text-end">
 
@@ -105,17 +110,12 @@
                                     <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fs-7 w-150px py-4"
                                         data-kt-menu="true">
                                         <div class="menu-item px-3">
-                                            <a href="{{ route('view-faculty', ['unique_id' => $item->unique_id]) }}"
-                                                class="menu-link px-3">
-                                                <i class="fas fa-eye me-3"></i> View</a>
-                                        </div>
-                                        <div class="menu-item px-3">
-                                            <a href="{{ route('edit-faculty', ['unique_id' => $item->unique_id]) }}"
+                                            <a href="{{ route('edit-assignment', ['unique_id' => $item->unique_id]) }}"
                                                 class="menu-link px-3">
                                                 <i class="fas fa-edit me-3"></i> Edit</a>
                                         </div>
                                         <div class="menu-item px-3">
-                                            <a href="{{ route('delete-faculty', ['unique_id' => $item->unique_id]) }}"
+                                            <a href="{{ route('delete-assignment', ['unique_id' => $item->unique_id]) }}"
                                                 data-token="{{ csrf_token() }}" class="menu-link px-3 delete-item-btn"
                                                 data-kt-users-table-filter="delete_row"><i
                                                     class="fas fa-trash me-3"></i>Delete</a>
@@ -140,10 +140,7 @@
                 </div>
 
             @endif
-
-
         </div>
-
 
         @if ($list->hasPages())
             <div class="card-footer py-4">
@@ -152,10 +149,5 @@
                 </div>
             </div>
         @endif
-
-
     </div>
-
-
-
 @endsection

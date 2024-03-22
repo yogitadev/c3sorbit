@@ -11,6 +11,7 @@ use App\Models\iam\module\Module;
 use App\Models\iam\Role;
 use Illuminate\Support\Facades\Auth;
 use App\Models\cms\Country;
+use App\Models\cms\Subject;
 
 trait Custom
 {
@@ -260,5 +261,15 @@ trait Custom
             $result = '-';
         }
         return $result;
+    }
+
+    public static function programcode_subject_name($programcode_id) {
+       $data =  Subject::select(DB::raw("group_concat(name SEPARATOR ', ') as subject_names"))->where('programcode_id',$programcode_id)->get();
+       if($data[0]['subject_names'] != null) {
+            $result = $data[0]['subject_names'];
+       } else {
+        $result = null;
+       }
+       return $result;
     }
 }

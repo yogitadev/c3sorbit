@@ -37,6 +37,13 @@
                 <span class="menu-title">Lecture Schedules</span>
             </a>
         </div>
+
+        <div
+            class="menu-item ms-2 here {{ Request::is('admin/cms/assignments') || Request::is('admin/cms/assignments/*') ? 'show' : '' }}">
+            <a class="menu-link py-3" href="{{ route('assignment-list') }}">
+                <span class="menu-title">Assignments</span>
+            </a>
+        </div>
         
     </div>
     <!--end::Menu-->

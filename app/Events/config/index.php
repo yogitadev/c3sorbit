@@ -17,6 +17,8 @@ $all_events = [
 
     'lecture_schedules' => include(base_path('app/Events/config/admin/cms/lecture_schedules/index.php')),
 
+    'assignments' => include(base_path('app/Events/config/admin/cms/assignments/index.php')),
+
     /* Campaign Management */
 
     'institutions' => include(base_path('app/Events/config/admin/campaign/institutions/index.php')),

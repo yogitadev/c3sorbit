@@ -15,15 +15,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 // Models
 use App\Models\iam\Role;
-use App\Models\cms\Media;
-use App\Models\cms\Country;
-use App\Models\cms\State;
-use App\Models\cms\City;
-use App\Models\cms\Qualification;
-use App\Models\cms\JobType;
-use App\Models\cms\Designation;
-use App\Models\cms\Department;
-use App\Models\cms\RegionManager;
 
 // Helper
 use App\Helpers\Helper;
@@ -35,7 +26,6 @@ class User extends Authenticatable
     protected $guard_name = "web";
     protected $appends = ['full_name'];
 
-
     /**
      * The attributes that are mass assignable.
      *
@@ -43,45 +33,19 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'unique_id',
-        'admin_type', // 'Super Admin', 'Admin'
-        'type_id',
-        'job_start_date',
-        'qualification_id',
-        'job_type_id',
-        'designation_id',
-        'department_id',
-        'region_id',
         'role_id',
         'interviewer',
         'first_name',
         'last_name',
-        'gender',
-        'dob',
-        'passport_no',
-        'nationality_id',
         'email',
-        'mobile_no',
-        'phone_no',
-        'home_country_id',
-        'home_state_id',
-        'home_city_id',
-        'home_street_1',
-        'home_street_2',
-        'current_country_id',
-        'current_state_id',
-        'current_city_id',
-        'current_street_1',
-        'current_street_2',
         'username',
         'password',
-        'media_id',
-        'status', // 'Pending','Active','Inactive','Deleted'
         'email_verification_key',
         'email_verified_at',
         'last_login_at',
         'remember_token',
+        'status', // 'Pending','Active','Inactive','Deleted'
         'sort_order',
-
     ];
 
     /**
@@ -95,24 +59,12 @@ class User extends Authenticatable
     ];
 
     public $columnTitles = [
-        'admin_type' => 'Admin Type',
         'first_name' => 'First Name',
         'last_name' => 'Last Name',
         'email' => 'Email',
         'user_name' => 'User Name',
         'password' => 'Password',
         'status' => 'Status',
-        'job_start_date' => 'Job Start Date',
-        'interviewer' => 'Interviewer',
-        'gender' => 'gender',
-        'dob' => 'Birth Of Date',
-        'passport_no' => 'Password No',
-        'mobile_no' => 'Mobile No',
-        'phone_no' => 'Phone No',
-        'home_street_1' => 'Home Street 1',
-        'home_street_2' => 'Home Strret 2',
-        'current_street_1' => 'Current Street 1',
-        'current_street_2' => 'Current Street 2',
     ];
 
     public static $searchColumns = [
@@ -150,58 +102,7 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Role::class, 'role_id', 'id');
     }
-    public function media()
-    {
-        return $this->belongsTo(Media::class, 'media_id', 'id');
-    }
-    public function home_country()
-    {
-        return $this->belongsTo(Country::class, 'home_country_id', 'id');
-    }
-    public function home_state()
-    {
-        return $this->belongsTo(State::class, 'home_state_id', 'id');
-    }
-    public function home_city()
-    {
-        return $this->belongsTo(Country::class, 'home_city_id', 'id');
-    }
-    public function current_country()
-    {
-        return $this->belongsTo(Country::class, 'current_country_id', 'id');
-    }
-    public function current_state()
-    {
-        return $this->belongsTo(State::class, 'current_state_id', 'id');
-    }
-    public function current_city()
-    {
-        return $this->belongsTo(Country::class, 'current_city_id', 'id');
-    }
-    public function qualification()
-    {
-        return $this->belongsTo(Qualification::class, 'qualification_id', 'id');
-    }
-    public function job_type()
-    {
-        return $this->belongsTo(JobType::class, 'job_type_id', 'id');
-    }
-    public function designation()
-    {
-        return $this->belongsTo(Designation::class, 'designation_id', 'id');
-    }
-    public function department()
-    {
-        return $this->belongsTo(Department::class, 'department_id', 'id');
-    }
-    public function nationality()
-    {
-        return $this->belongsTo(Country::class, 'nationality_id', 'id');
-    }
-    public function region()
-    {
-        return $this->belongsTo(RegionManager::class, 'region_id', 'id');
-    }
+   
 
     // Accessors
 
@@ -251,13 +152,7 @@ class User extends Authenticatable
         $all_search_fields = array_keys(self::$searchColumns);
         $query = Helper::generateAdminListQuery(self::query(), $params, $all_search_fields);
 
-        // $query->leftJoin('user_logins', function ($query) {
-        //     $query->on('user_logins.user_id', '=', 'users.id')->whereRaw('user_logins.id IN (select MAX(ul.id) from user_logins as ul join users as us on us.id = ul.user_id group by us.id)');
-        // });
-
         $query->select(['users.*']);
-
-        //$query->select(['users.*', \DB::raw('user_logins.created_at AS last_login_at')]);
 
         if (isset($params['status']) && $params['status'] != '') {
             $query->where('users.status', $params['status']);
@@ -285,19 +180,6 @@ class User extends Authenticatable
         } else {
             $query->orderBy('users.id', 'desc'); //->order();
         }
-
-        // if (isset($params['last_login_date_range']) && $params['last_login_date_range'] !== '') {
-        //     $date_range = explode(' to ', $params['last_login_date_range']);
-        //     if (is_array($date_range) && count($date_range) >= 2) {
-        //         $start_date = Helper::db_date_format($date_range[0]);
-        //         $end_date = Helper::db_date_format($date_range[1]);
-        //         $query->whereDate('user_logins.created_at', '>=', $start_date);
-        //         $query->whereDate('user_logins.created_at', '<=', $end_date);
-        //     } elseif (is_array($date_range) && count($date_range) >= 1) {
-        //         $start_date = Helper::db_date_format($date_range[0]);
-        //         $query->whereDate('user_logins.created_at', $start_date);
-        //     }
-        // }
 
         $list = null;
         if (isset($params['export']) && $params['export'] == true) {

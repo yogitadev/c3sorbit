@@ -112,6 +112,15 @@
                                 <span class="menu-title">Lecture Schedules</span>
                             </a>
                         </div>
+                        <div class="menu-item">
+                            <a class="menu-link <?php echo e(Request::is('admin/cms/assignments') || Request::is('admin/cms/assignments/*') ? 'active' : ''); ?>"
+                                href="<?php echo e(route('assignment-list')); ?>">
+                                <span class="menu-bullet">
+                                    <span class="bullet bullet-dot"></span>
+                                </span>
+                                <span class="menu-title">Assignments</span>
+                            </a>
+                        </div>
 
                     </div>
                     

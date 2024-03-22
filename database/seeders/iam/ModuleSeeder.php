@@ -71,6 +71,15 @@ class ModuleSeeder extends Seeder
                             'delete' => 'Delete',
                         ],
                     ],
+                    [
+                        'module_name' => 'assignments',
+                        'module_title' => 'Assignments',
+                        'permissions' => [
+                            'add' => 'Add',
+                            'edit' => 'Edit',
+                            'delete' => 'Delete',
+                        ],
+                    ],
                 ]
             ],
             // CMS [End]
@@ -119,6 +128,31 @@ class ModuleSeeder extends Seeder
                 ]
             ],
             //Course Management [End]
+
+            //Person [Start]
+            [
+                'module_category_name' => 'Person',
+                'modules' => [
+                    [
+                        'module_name' => 'faculties',
+                        'module_title' => 'Faculties',
+                        'permissions' => [
+                            'add' => 'Add',
+                            'edit' => 'Edit',
+                            'delete' => 'Delete',
+                            'view' => 'View',
+                        ],
+                    ],
+                    [
+                        'module_name' => 'students',
+                        'module_title' => 'Students',
+                        'permissions' => [
+                            'view' => 'View',
+                        ],
+                    ],
+                ]
+            ],
+            //Person [End]
 
             //IAM [Start]
             [

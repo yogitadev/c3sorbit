@@ -8,6 +8,7 @@ use App\Http\Controllers\admin\person\faculties\CreateController;
 use App\Http\Controllers\admin\person\faculties\StoreController;
 use App\Http\Controllers\admin\person\faculties\EditController;
 use App\Http\Controllers\admin\person\faculties\UpdateController;
+use App\Http\Controllers\admin\person\faculties\ViewController;
 use App\Http\Controllers\admin\person\faculties\DeleteController;
 use App\Http\Controllers\admin\person\faculties\ReorderController;
 use App\Http\Controllers\admin\person\faculties\UpdateOrderController;
@@ -20,9 +21,12 @@ Route::group(['prefix' => 'faculties'], function ($router) {
     Route::get('/create', CreateController::class)->name('create-faculty');
     Route::post('/create', StoreController::class);
 
-    // // Edit
+    // Edit
     Route::get('/{unique_id}/edit', EditController::class)->name('edit-faculty');
     Route::put('/{unique_id}/edit', UpdateController::class);
+
+    // View
+    Route::get('/{unique_id}/view', ViewController::class)->name('view-faculty');
 
     // Reorder
     Route::get('/reorder', ReorderController::class)->name('reorder-faculty');
