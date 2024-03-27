@@ -35,7 +35,7 @@
             </div>
         </div>
 	</div>
-        <div class="row g-5 g-xl-10">
+        <div class="row g-5 g-xl-10 mb-5">
 			<div class="col-xl-5">
 				<div class="card h-md-100">
 					<div class="card-header position-relative py-0 border-bottom-1">
@@ -101,8 +101,58 @@
 						</div>
 						<div class="separator my-5"></div>
 						<div>
-							<h5>Offer Letter</h5>
+							<h5>Offer Letter Archive</h5>
 							<a  class="btn btn-sm btn-success archievedata" data-bs-toggle="modal" data-bs-target="#kt_modal_archievecol" data-vista-id="{{ $item->vista_id }}" data-unique-id="{{ $item->unique_id}}" data-type="colletter"><i class="fas fa-file-pdf" ></i></a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row g-5 g-xl-10">
+			<div class="col-xl-12">
+				<div class="card h-md-100">
+					<div class="card-header position-relative py-0 border-bottom-1">
+						<h3 class="card-title text-gray-800 fw-bold">Lecture Schedule</h3>
+					</div>
+					<div class="card-body d-flex flex-column ">
+						<div>
+						@if (isset($lecture_list) && count($lecture_list) > 0)
+							<table class="table align-middle table-row-dashed" id="custom-data-list">
+								<thead>
+									<tr class="text-start text-muted fw-bolder fs-7 text-uppercase gs-0">
+										<th>Subject Name</th>
+										<th>Lecture Date</th>
+										<th>Lecture Time</th>
+										<th>Assignment Title</th>
+									</tr>
+								</thead>
+								<tbody>
+									@foreach($lecture_list as $lecture)
+										<tr>
+											<td>
+												{{ $lecture->subject->name ?? '-' }}
+											</td>
+											<td>
+												{{ $lecture->lecture_date ?? '-' }}
+											</td>
+											<td>
+												{{ $lecture->lecture_time ?? '-' }}
+											</td>
+											<td>
+												{!! \App\Helpers\Helper::assignment_title($lecture->subject_id) !!}
+											</td>
+										</tr>
+									@endforeach
+								</tbody>
+							</table>
+						@else
+							<div class="alert alert-warning d-flex align-items-center p-5 mb-10">
+                    			<i class="fas fa-exclamation-circle fs-1 me-4 text-warning"></i>
+								<div class="d-flex flex-column">
+									<h4 class="text-warning mb-0 fw-normal">No Data Found</h4>
+								</div>
+                			</div>
+						@endif
 						</div>
 					</div>
 				</div>
@@ -241,8 +291,6 @@
 					},
 				});
 				}
-				
-                
 			});
 		});
 	});

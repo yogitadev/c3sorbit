@@ -12,6 +12,7 @@ use App\Models\iam\Role;
 use Illuminate\Support\Facades\Auth;
 use App\Models\cms\Country;
 use App\Models\cms\Subject;
+use App\Models\cms\Assignment;
 
 trait Custom
 {
@@ -273,5 +274,15 @@ trait Custom
         $result = null;
        }
        return $result;
+    }
+
+    public static function assignment_title($subject_id) {
+        $data = Assignment::select(DB::raw("group_concat(assignment_title SEPARATOR ', ') as assigment_titles"))->where('subject_id', $subject_id)->get();
+        if($data[0]['assigment_titles'] != null) {
+            $result = $data[0]['assigment_titles'];
+        } else {
+            $result = '-';
+        }
+        return $result;
     }
 }

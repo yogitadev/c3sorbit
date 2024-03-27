@@ -13,6 +13,7 @@ use App\Models\campaign\Campus;
 use App\Models\campaign\Institution;
 use App\Models\cms\Media;
 use App\Models\cms\AwardingBody;
+use App\Models\cms\LectureSchedule;
 
 class Programcode extends Model
 {
@@ -104,6 +105,10 @@ class Programcode extends Model
     public function awarding_body()
     {
         return $this->belongsTo(AwardingBody::class, 'awarding_body_id', 'id');
+    }
+    public function lecture_schedule()
+    {
+        return $this->hasMany(LectureSchedule::class, 'programcode_id', 'id');
     }
 
     public static function boot()
