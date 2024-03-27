@@ -71,7 +71,7 @@ class LectureStudentPresent extends Model
     {
         parent::boot();
         self::creating(function ($model) {
-            $model->unique_id = Helper::get_unique_id('SUB', 3);
+            $model->unique_id = Helper::get_unique_id('LSP', 3);
         });
     }
 

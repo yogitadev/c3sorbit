@@ -24,7 +24,7 @@ class ReorderController extends Controller
      */
     public function __invoke(Request $request)
     {
-        if(!Helper::checkPermission('assignment.edit')){
+        if(!Helper::checkPermission('assignments.edit')){
             return redirect()->route('admin-dashboard');
         }
 

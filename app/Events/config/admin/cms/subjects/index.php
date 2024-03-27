@@ -22,4 +22,19 @@ return [
         \App\Listeners\activity\admin\cms\subjects\ReorderListener::class,
     ],
 
+    // Exam Paper Event
+
+    \App\Events\admin\cms\subjects\ExamCreateEvent::class => [
+        \App\Listeners\activity\admin\cms\subjects\ExamCreateListener::class,
+    ],
+
+    \App\Events\admin\cms\subjects\ExamUpdateEvent::class => [
+        \App\Listeners\activity\admin\cms\subjects\ExamUpdateListener::class,
+    ],
+
+
+    \App\Events\admin\cms\subjects\ExamDeleteEvent::class => [
+        \App\Listeners\activity\admin\cms\subjects\ExamDeleteListener::class,
+    ],
+
 ];

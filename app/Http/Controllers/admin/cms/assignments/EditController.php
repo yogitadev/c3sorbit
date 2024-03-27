@@ -25,7 +25,7 @@ class EditController extends Controller
     public function __invoke($unique_id, Request $request)
     {
 
-        if(!Helper::checkPermission('assignment.edit')){
+        if(!Helper::checkPermission('assignments.edit')){
             return redirect()->route('admin-dashboard');
         }
 

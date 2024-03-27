@@ -23,7 +23,7 @@ class CreateController extends Controller
      */
     public function __invoke(Request $request)
     {
-        if(!Helper::checkPermission('assignment.add')){
+        if(!Helper::checkPermission('assignments.add')){
             return redirect()->route('admin-dashboard');
         }
 

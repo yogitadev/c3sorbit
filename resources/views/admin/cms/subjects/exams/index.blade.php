@@ -1,15 +1,15 @@
 @extends('admin.layouts.layout')
 
-@section('page_title', 'Subjects')
+@section('page_title', 'Exam Pappers')
 
 @section('sub_header')
     @php
     $breadcrumb_arr = [
-        'Subjects' => '',
+        'Exam Pappers' => '',
     ];
     @endphp
     @include('admin.layouts.sub_header', [
-        'title' => 'Subjects',
+        'title' => 'Exam Pappers',
         'breadcrumb_arr' => $breadcrumb_arr,
     ])
 @endsection
@@ -26,18 +26,13 @@
 
         <div class="card-header border-0 pt-6">
             <div class="card-title">
-                <h3 class="fw-bolder m-0">Subjects</h3>
+                <h3 class="fw-bolder m-0">Exam Pappers</h3>
             </div>
             <div class="card-toolbar">
                 <div class="d-flex justify-content-end" data-kt-user-table-toolbar="base">
-                    @include ('admin.cms.subjects._filter')
-                    @can('subjects.edit')
-                        <a href="{{ route('reorder-subject') }}" class="btn btn-warning me-3"><i
-                            class="fas fa-list fs-4 me-1"></i>
-                        Reorder</a>
-                    @endcan
-                    @can('subjects.add')
-                        <a href="{{ route('create-subject') }}" class="btn btn-dark"><i
+                    @include ('admin.cms.subjects.exams._filter')
+                    @can('subjects.exam_add')
+                        <a href="{{ route('create-exam', ['subject_id' => $subject_id]) }}" class="btn btn-dark"><i
                             class="fas fa-plus fs-4 me-1"></i>
                         Create</a>
                     @endcan
@@ -53,29 +48,19 @@
                     <thead>
                         <tr class="text-start text-muted fw-bolder fs-7 text-uppercase gs-0">
                             <th class="min-w-125px">
-                                {!! \App\Helpers\Helper::getColumnSortLink([
-                                    'url' => route('subject-list'),
-                                    'column_title' => 'Unique ID',
-                                    'column_name' => 'unique_id',
-                                    'params' => $params,
-                                ]) !!}
-                            </th>
-                            <th class="min-w-125px">
-                                Course Name
+                                Unique ID
                             </th>
                             <th class="min-w-125px">
                                 Subject Name
                             </th>
                             <th class="min-w-125px">
-                                Faculty Name
+                                Exam Date
                             </th>
                             <th class="min-w-125px">
-                                {!! \App\Helpers\Helper::getColumnSortLink([
-                                    'url' => route('subject-list'),
-                                    'column_title' => 'Status',
-                                    'column_name' => 'status',
-                                    'params' => $params,
-                                ]) !!}
+                                Exam Duration
+                            </th>
+                            <th class="min-w-125px">
+                                Status
                             </th>
                             <th class="text-end min-w-100px">Actions</th>
                         </tr>
@@ -88,13 +73,13 @@
                                     {{ $item->unique_id }}
                                 </td>
                                 <td>
-                                    {{ $item->programcode->program_name ?? '-' }}
+                                    {{ $item->subject->name  ?? '-'}}
                                 </td>
                                 <td>
-                                    {{ $item->name }}
+                                    {{ $item->exam_date ?? '-'}}
                                 </td>
                                 <td>
-                                    {{ $item->faculty->first_name ?? '-'}} {{ $item->faculty->last_name ?? ''}}
+                                    {{ $item->exam_duration ?? '-'}} Min
                                 </td>
                                 <td>
                                     {!! \App\Helpers\Helper::showBadge($item->status) !!}
@@ -108,26 +93,19 @@
 
                                     <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fs-7 w-150px py-4"
                                         data-kt-menu="true">
-                                        @can('subjects.edit')
+                                        @can('subjects.exam_edit')
                                             <div class="menu-item px-3">
-                                                <a href="{{ route('edit-subject', ['unique_id' => $item->unique_id]) }}"
+                                                <a href="{{ route('edit-exam', ['unique_id' => $item->unique_id, 'subject_id' => $subject_id]) }}"
                                                     class="menu-link px-3">
                                                     <i class="fas fa-edit me-3"></i> Edit</a>
                                             </div>
                                         @endcan
-                                        @can('subjects.delete')
+                                        @can('subjects.exam_delete')
                                             <div class="menu-item px-3">
-                                                <a href="{{ route('delete-subject', ['unique_id' => $item->unique_id]) }}"
+                                                <a href="{{ route('delete-exam', ['unique_id' => $item->unique_id, 'subject_id' => $subject_id]) }}"
                                                     data-token="{{ csrf_token() }}" class="menu-link px-3 delete-item-btn"
                                                     data-kt-users-table-filter="delete_row"><i
                                                         class="fas fa-trash me-3"></i>Delete</a>
-                                            </div>
-                                        @endcan
-                                        @can('subjects.exam_paper')
-                                            <div class="menu-item px-3">
-                                                <a href="{{ route('exam-list', ['unique_id' => $item->unique_id]) }}"
-                                                    class="menu-link px-3">
-                                                    <i class="fas fa-scroll me-3"></i> Exam Paper</a>
                                             </div>
                                         @endcan
                                     </div>

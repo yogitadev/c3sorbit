@@ -32,7 +32,7 @@ class UpdateController extends Controller
      */
     public function __invoke($unique_id, UpdateRequest $request)
     {
-        if(!Helper::checkPermission('assignment.edit')){
+        if(!Helper::checkPermission('assignments.edit')){
             return redirect()->route('admin-dashboard');
         }
         

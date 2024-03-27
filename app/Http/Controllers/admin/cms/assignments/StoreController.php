@@ -28,7 +28,7 @@ class StoreController extends Controller
      */
     public function __invoke(StoreRequest $request)
     {
-        if(!Helper::checkPermission('assignment.add')){
+        if(!Helper::checkPermission('assignments.add')){
             return redirect()->route('admin-dashboard');
         }
         

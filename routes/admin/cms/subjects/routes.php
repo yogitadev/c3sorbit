@@ -11,7 +11,12 @@ use App\Http\Controllers\admin\cms\subjects\UpdateController;
 use App\Http\Controllers\admin\cms\subjects\ReorderController;
 use App\Http\Controllers\admin\cms\subjects\UpdateOrderController;
 use App\Http\Controllers\admin\cms\subjects\DeleteController;
-
+use App\Http\Controllers\admin\cms\subjects\exams\ExamIndexController;
+use App\Http\Controllers\admin\cms\subjects\exams\ExamCreateController;
+use App\Http\Controllers\admin\cms\subjects\exams\ExamStoreController;
+use App\Http\Controllers\admin\cms\subjects\exams\ExamEditController;
+use App\Http\Controllers\admin\cms\subjects\exams\ExamUpdateController;
+use App\Http\Controllers\admin\cms\subjects\exams\ExamDeleteController;
 
 Route::group(['prefix' => 'subjects'], function ($router) {
 
@@ -31,4 +36,18 @@ Route::group(['prefix' => 'subjects'], function ($router) {
 
     // Delete
     Route::delete('/{unique_id}', DeleteController::class)->name('delete-subject');
+
+    //Exam-Paper List
+    Route::get('{unique_id}/exam-paper/', ExamIndexController::class)->name('exam-list');
+
+    // Create
+    Route::get('{subject_id}/exam-paper/create', ExamCreateController::class)->name('create-exam');
+    Route::post('/{subject_id}/exam-paper/create', ExamStoreController::class);
+
+    // Edit
+    Route::get('/{subject_id}/exam-paper/{unique_id}/edit', ExamEditController::class)->name('edit-exam');
+   Route::put('/{subject_id}/exam-paper/{unique_id}/edit', ExamUpdateController::class);
+
+    // Delete
+    Route::delete('{subject_id}/exam-paper/{unique_id}', ExamDeleteController::class)->name('delete-exam');
 });

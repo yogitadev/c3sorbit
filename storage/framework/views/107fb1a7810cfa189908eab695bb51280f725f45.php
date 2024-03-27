@@ -128,6 +128,13 @@
                                                         class="fas fa-trash me-3"></i>Delete</a>
                                             </div>
                                         <?php endif; ?>
+                                        <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('subjects.exam_paper')): ?>
+                                            <div class="menu-item px-3">
+                                                <a href="<?php echo e(route('exam-list', ['unique_id' => $item->unique_id])); ?>"
+                                                    class="menu-link px-3">
+                                                    <i class="fas fa-scroll me-3"></i> Exam Paper</a>
+                                            </div>
+                                        <?php endif; ?>
                                     </div>
                                 </td>
                             </tr>

@@ -9,38 +9,36 @@ use Illuminate\Database\Eloquent\Model;
 use App\Helpers\Helper;
 
 //Models
-use App\Models\course\Programcode;
 use App\Models\cms\Subject;
-use App\Models\lead_management\Student;
+use App\Models\cms\ExamQuestion;
 
-class LectureSchedule extends Model
+class Exam extends Model
 {
     use HasFactory;
 
-    protected $table = 'lecture_schedules';
+    protected $table = 'exams';
 
     protected $fillable = [
         'unique_id',
-        'programcode_id',
         'subject_id',
-        'lecture_date',
-        'lecture_time',
+        'exam_date',
+        'exam_duration',
         'status', // 'Active','Inactive'
         'sort_order',
 
     ];
 
     public $columnTitles = [
-        'lecture_date' => 'Lecture Date',
-        'lecture_time' => 'Lecture Time',
+        'exam_date' => 'Exam Date',
+        'exam_duration' => 'Exam Duration',
         'status' => 'Status',
     ];
 
     private static $searchColumns = [
         'all' => 'All',
-        'lecture_schedules.unique_id' => 'Unique ID',
-        'lecture_schedules.lecture_date' => 'Date',
-        'lecture_schedules.lecture_time' => 'Date',
+        'exams.unique_id' => 'Unique ID',
+        'exams.exam_date' => 'Exam Date',
+        'exams.exam_duration' => 'Exam Duration',
     ];
 
 
@@ -56,9 +54,9 @@ class LectureSchedule extends Model
     }
 
     //Foreign Ref
-    public function programcode()
+    public function exam_questions()
     {
-        return $this->belongsTo(Programcode::class, 'programcode_id', 'id');
+        return $this->hasMany(ExamQuestion::class, 'exam_id', 'id');
     }
     public function subject()
     {
@@ -69,7 +67,7 @@ class LectureSchedule extends Model
     {
         parent::boot();
         self::creating(function ($model) {
-            $model->unique_id = Helper::get_unique_id('LES', 3);
+            $model->unique_id = Helper::get_unique_id('EXA', 3);
         });
     }
 
@@ -82,15 +80,9 @@ class LectureSchedule extends Model
             $query->where('status', $params['search_status']);
         }
 
-        if (isset($params['programcode_id']) && $params['programcode_id'] != null && $params['programcode_id'] != '') {
-            $query->where('lecture_schedules.programcode_id', $params['programcode_id']);
-        }
-
         if (isset($params['subject_id']) && $params['subject_id'] != null && $params['subject_id'] != '') {
-            $query->where('lecture_schedules.subject_id', $params['subject_id']);
+            $query->where('exams.subject_id', $params['subject_id']);
         }
-
-        //$query->with(['media']);
 
         $list = null;
         if (isset($params['export']) && $params['export'] == true) {
@@ -103,11 +95,6 @@ class LectureSchedule extends Model
         return $list;
     }
 
-    public function student($programcode_id) 
-    {
-        $student_list = Student::where('programcode_id',$programcode_id)->get();
-        return $student_list;
-    }
     /*
     * Function Name     :   getActivityTitle
     * Use               :   Use for Activity Log
@@ -116,9 +103,9 @@ class LectureSchedule extends Model
     public function getActivityTitle($add_link = true)
     {
         if ($add_link) {
-            return '<strong><a href="' . route('edit-lecture-schedule', ['unique_id' => $this->unique_id]) . '" target="_blank">' . $this->lecture_date . ' [' . $this->unique_id . ']</a></strong>';
+            return '<strong><a href="' . route('edit-exam', ['subject_id' => $this->subject_id, 'unique_id' => $this->unique_id]) . '" target="_blank">' . $this->exam_date . ' [' . $this->unique_id . ']</a></strong>';
         } else {
-            return '<strong>' . $this->lecture_date . ' [' . $this->unique_id . ']</strong>';
+            return '<strong>' . $this->exam_date . ' [' . $this->unique_id . ']</strong>';
         }
     }
 }

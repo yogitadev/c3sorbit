@@ -25,7 +25,7 @@ class DeleteController extends Controller
      */
     public function __invoke($unique_id, Request $request)
     {
-        if(!Helper::checkPermission('assignment.delete')){
+        if(!Helper::checkPermission('assignments.delete')){
             return redirect()->route('admin-dashboard');
         }
 

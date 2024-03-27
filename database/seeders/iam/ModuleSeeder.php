@@ -60,6 +60,10 @@ class ModuleSeeder extends Seeder
                             'add' => 'Add',
                             'edit' => 'Edit',
                             'delete' => 'Delete',
+                            'exam_paper' => 'Exam Paper',
+                            'exam_add' => 'Exam Add',
+                            'exam_edit' => 'Exam Edit',
+                            'exam_delete' => 'Exam_delete',
                         ],
                     ],
                     [
