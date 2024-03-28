@@ -37,6 +37,11 @@ class IndexController extends Controller
             return redirect(route('country-list') . '?' . Helper::generateQueryString($params));
         }
 
+        if($request->has('programcode') && $request->get('programcode')) {
+            $all_subject_list = Subject::where('programcode_id',$params['programcode_id'])->pluck('name','id');
+            return $all_subject_list;
+        }
+
         return view('admin.cms.lecture_schedules.index', [
             'list' => $list,
             'params' => $params,

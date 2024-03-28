@@ -96,6 +96,27 @@
             });
 
         });
+
+        $(document.body).on("change","#parent_programcode_id",function(){
+            //console.log(this.value);
+            var programcode_id = this.value;
+            $.ajax({
+                    type: 'GET',
+                    url: '<?php echo e(route('lecture-schedule-list')); ?>'+'?programcode=true&programcode_id='+programcode_id,
+                    
+                    success: function(e) {
+                        //console.log(e);
+
+                        $('#parent_subject_id')
+                            .find("option").remove().end().append($('<option value = "">Please select Subject</option>'));  
+                        $.each(e, function(key, value) {   
+                            $('#parent_subject_id')
+                                .append($('<option>', { value : key })
+                                .text(value)); 
+                        });
+                    },
+                });
+        });
     });
 </script>
 <?php $__env->stopPush(); ?>

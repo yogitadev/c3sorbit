@@ -11,7 +11,7 @@ use App\Helpers\Helper;
 //Models
 use App\Models\course\Programcode;
 use App\Models\cms\Subject;
-use App\Models\lead_management\Student;
+use App\Models\person\Student;
 
 class LectureSchedule extends Model
 {

@@ -83,6 +83,7 @@ class ModuleSeeder extends Seeder
                             'add' => 'Add',
                             'edit' => 'Edit',
                             'delete' => 'Delete',
+                            'view' => 'View',
                         ],
                     ],
                 ]
@@ -153,6 +154,7 @@ class ModuleSeeder extends Seeder
                         'module_title' => 'Students',
                         'permissions' => [
                             'view' => 'View',
+                            'assignment_submit' => 'Assignment Submit',
                         ],
                     ],
                 ]

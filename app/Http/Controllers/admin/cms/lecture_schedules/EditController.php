@@ -32,7 +32,7 @@ class EditController extends Controller
         $item = LectureSchedule::where('unique_id', $unique_id)->first();
 
         $program_list = Programcode::pluck('program_name','id');
-        $subject_list = Subject::pluck("name","id");
+        $subject_list = Subject::where('programcode_id',$item->programcode_id)->pluck("name","id");
 
         if(isset($params['date']) && isset($params['time'])) {
             $schedules = LectureSchedule::where('lecture_date',$params['date'])->where('lecture_time',$params['time'])->get();

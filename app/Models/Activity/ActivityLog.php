@@ -11,7 +11,7 @@ use App\Helpers\Helper;
 
 // Models
 use App\Models\iam\personnel\User;
-use App\Models\lead_management\Student;
+use App\Models\person\Student;
 
 class ActivityLog extends Model
 {

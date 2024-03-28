@@ -29,7 +29,6 @@ class CreateController extends Controller
         
         $params = $request->all();
         $program_list = Programcode::pluck('program_name','id');
-        $subject_list = Subject::pluck("name","id");
 
         if(isset($params['date']) && isset($params['time'])) {
             $schedules = LectureSchedule::where('lecture_date',$params['date'])->where('lecture_time',$params['time'])->get();
@@ -46,7 +45,7 @@ class CreateController extends Controller
 
         return view('admin.cms.lecture_schedules.create', [
             'program_list' => $program_list,
-            'subject_list' => $subject_list,
+            'subject_list' => [],
         ]);
     }
 }

@@ -32,6 +32,8 @@ $all_events = [
     /*Person */
 
     'person' => include(base_path('app/Events/config/admin/person/faculties/index.php')),
+
+    'students' => include(base_path('app/Events/config/admin/person/students/index.php')),
    
     /*Iam */
 

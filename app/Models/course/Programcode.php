@@ -14,6 +14,7 @@ use App\Models\campaign\Institution;
 use App\Models\cms\Media;
 use App\Models\cms\AwardingBody;
 use App\Models\cms\LectureSchedule;
+use App\Models\cms\Subject;
 
 class Programcode extends Model
 {
@@ -109,6 +110,10 @@ class Programcode extends Model
     public function lecture_schedule()
     {
         return $this->hasMany(LectureSchedule::class, 'programcode_id', 'id');
+    }
+    public function subjects()
+    {
+        return $this->hasMany(Subject::class, 'programcode_id', 'id');
     }
 
     public static function boot()

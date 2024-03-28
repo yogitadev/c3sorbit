@@ -4,20 +4,28 @@ namespace App\Models\person;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Carbon\Carbon;
+use DateTime;
+use DB;
 
 // Helper
 use App\Helpers\Helper;
 
+//Model
 use App\Models\cms\Country;
 use App\Models\course\Programcode;
+use App\Models\iam\personnel\User;
+use App\Models\cms\LectureStudentPresent;
 
 class Student extends Model
 {
-    use HasFactory;
-
-    protected $table = 'students';
+    use HasFactory,SoftDeletes;
 
     protected $connection = 'mysql';
+
+    protected $table = 'students';
 
     protected $fillable = [
         'unique_id',
@@ -31,8 +39,7 @@ class Student extends Model
         'email_id',
         'programcode_id',
         'v_reference_no',
-        'status', // 'Active','Inactive'
-
+        'status', // 'Active','Inactive', 'Deleted'
     ];
 
     public $columnTitles = [
@@ -44,6 +51,7 @@ class Student extends Model
         'mobile_number' => 'Mobile Number',
         'v_reference_no' => 'Reference No',
         'status' => 'Status',
+        'v_reference_no' => 'Reference No'
     ];
 
     private static $searchColumns = [
@@ -58,36 +66,35 @@ class Student extends Model
         'students.v_reference_no' => 'v_reference_no',
     ];
 
-
     // Scopes
-    public function scopeOrder($query)
-    {
-        return $query->orderBy($this->table . '.sort_order', 'ASC');
-    }
-
+    
     public function scopeActive($query)
     {
         return $query->where($this->table . '.status', 'Active');
     }
 
     //Foreign Ref
-    public function programcode()
-    {
-        return $this->belongsTo(Programcode::class, 'programcode_id', 'id');
-    }
+   
     public function country()
     {
         return $this->belongsTo(Country::class, 'country_id', 'id');
     }
-
+    public function programcode()
+    {
+        return $this->belongsTo(Programcode::class, 'programcode_id', 'id');
+    }
+    public function lecture_student_present()
+    {
+        return $this->belongsTo(LectureStudentPresent::class, 'id', 'student_id');
+    }
+    
     public static function boot()
     {
         parent::boot();
         self::creating(function ($model) {
-            $model->unique_id = Helper::get_unique_id('FAC', 3);
+            $model->unique_id = Helper::get_unique_id('STU', 3);
         });
     }
-
 
     public static function getAdminList($params)
     {
@@ -97,7 +104,8 @@ class Student extends Model
         if (isset($params['search_status']) && $params['search_status'] != null && $params['search_status'] != '') {
             $query->where('status', $params['search_status']);
         }
-
+        
+        //dd($params, $query->toSql());
         $list = null;
         if (isset($params['export']) && $params['export'] == true) {
             $list = $query->get();
@@ -110,8 +118,8 @@ class Student extends Model
     }
 
     public function studentVl($v_reference_no) {
-       $student =  \DB::connection('mysql2')->table('students')->select('*')->where('v_reference_no', $v_reference_no)->first();
-      
+        $student =  \DB::connection('mysql2')->table('students')->select('*')->where('v_reference_no', $v_reference_no)->first();
+       
         if($student != null) {
             $studentdata = json_decode(json_encode($student), true);
             
@@ -127,9 +135,9 @@ class Student extends Model
         }
     }
     public function studentVlArchieve($vista_id) {
-        $student =  \DB::connection('mysql2')->table('students')->select('*')->where('vista_id', $vista_id)->first();
-      
-        if($student != null) {
+         $student =  \DB::connection('mysql2')->table('students')->select('*')->where('vista_id', $vista_id)->first();
+       
+         if($student != null) {
             $studentdata = json_decode(json_encode($student), true);
             
             $vla = \DB::connection('mysql2')->table('student_vl_letters_archives')->select('*')->where('student_id',$studentdata['id'])->where('type1',null)->latest()->get();
@@ -217,9 +225,9 @@ class Student extends Model
     public function getActivityTitle($add_link = true)
     {
         if ($add_link) {
-            //return '<strong><a href="' . route('edit-faculty', ['unique_id' => $this->unique_id]) . '" target="_blank">' . $this->name . ' [' . $this->unique_id . ']</a></strong>';
+            //return '<strong><a href="' . route('edit-student', ['unique_id' => $this->unique_id]) . '" target="_blank">' . $this->title . ' [' . $this->unique_id . ']</a></strong>';
         } else {
-            return '<strong>' . $this->name . ' [' . $this->unique_id . ']</strong>';
+            return '<strong>' . $this->title . ' [' . $this->unique_id . ']</strong>';
         }
     }
 }

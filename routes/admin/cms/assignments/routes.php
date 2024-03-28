@@ -11,6 +11,7 @@ use App\Http\Controllers\admin\cms\assignments\UpdateController;
 use App\Http\Controllers\admin\cms\assignments\ReorderController;
 use App\Http\Controllers\admin\cms\assignments\UpdateOrderController;
 use App\Http\Controllers\admin\cms\assignments\DeleteController;
+use App\Http\Controllers\admin\cms\assignments\ViewController;
 
 
 Route::group(['prefix' => 'assignments'], function ($router) {
@@ -31,4 +32,7 @@ Route::group(['prefix' => 'assignments'], function ($router) {
 
     // Delete
     Route::delete('/{unique_id}', DeleteController::class)->name('delete-assignment');
+
+    // View
+    Route::get('/{unique_id}/view', ViewController::class)->name('view-assignment');
 });

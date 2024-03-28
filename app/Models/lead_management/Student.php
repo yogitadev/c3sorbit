@@ -43,12 +43,13 @@ class Student extends Model
     ];
 
     public $columnTitles = [
-        'lead_date' => 'lead_date',
-        'lead_time' => 'lead_time',
-        'name' => 'name',
-        'country_code' => 'country_code',
-        'mobile_number' => 'mobile_number',
-        'email_id' => 'email_id',
+        'lead_date' => 'Lead Date',
+        'lead_time' => 'Lead Time',
+        'country_code' => 'Country Code',
+        'name' => 'Name',
+        'email_id' => 'Email',
+        'mobile_number' => 'Mobile Number',
+        'v_reference_no' => 'Reference No',
         'status' => 'Status',
         'v_reference_no' => 'Reference No'
     ];
@@ -57,13 +58,17 @@ class Student extends Model
         'all' => 'All',
         'students.unique_id' => 'unique_id',
         'students.name' => 'name',
-        'students.mobile_number' => 'mobile_number',
-        'students.email_id' => 'email_id',
         'students.vista_id' => 'vista_id',
+        'students.lead_date' => 'lead_date',
+        'students.lead_time' => 'lead_time',
+        'students.email_id' => 'email_id',
+        'students.mobile_number' => 'mobile_number',
+        'students.v_reference_no' => 'v_reference_no',
     ];
 
     // Scopes
 
+    
     public function scopeActive($query)
     {
         return $query->where($this->table . '.status', 'Active');
@@ -97,47 +102,8 @@ class Student extends Model
         $all_search_fields = array_keys(self::$searchColumns);
         $query = Helper::generateFrontListQuery(self::query(), $params, $all_search_fields);
 
-        if (isset($params['start_date']) && isset($params['end_date'])) {
-            $from = Carbon::createFromFormat('Y-m-d', $params['start_date']);
-            $to = Carbon::createFromFormat('Y-m-d', $params['end_date']);
-    
-            if($params['start_date'] != null && $params['start_date'] != '' && $params['end_date'] != null && $params['end_date'] != '') {
-                //$query->whereBetween('students.created_at', [$from, $to]);
-                $query->whereDate('students.created_at','>=', $from)
-                        -> whereDate('students.created_at','<=',$to);
-            }
-            if($params['start_date'] != null && $params['start_date'] != '' && $params['end_date'] == null && $params['end_date'] == '') {
-                $query->whereDate('students.created_at', $from);
-            }
-            if($params['start_date'] == null && $params['start_date'] == '' && $params['end_date'] != null && $params['end_date'] != '') {
-                $query->whereDate('students.created_at', $to);
-            }
-        }
-        if (isset($params['programcode_id']) && $params['programcode_id'] != null && $params['programcode_id'] != '') {
-            $query->where('students.programcode_id', $params['programcode_id']);
-        }
-        if (isset($params['country_id']) && $params['country_id'] != null && $params['country_id'] != '') {
-            $query->where('students.country_id', $params['country_id']);
-        }
-        
-        if (isset($params['search_name']) && $params['search_name'] != null && $params['search_name'] != '') {
-            $query->where(function ($q) use ($params) {
-                $q->where('students.name',$params['search_name']);
-                $q->orWhere('students.email_id',$params['search_name']);
-                $q->orWhere('students.v_reference_no',$params['search_name']);
-                $q->orwhereHas('country', function($qu) use($params) {
-                    $qu->where('name', 'like', '%' . $params['search_name'] . '%');
-                });
-                $q->orwhereHas('user', function($qu) use($params) {
-                    $qu->where('emp_code', 'like', '%' . $params['search_name'] . '%');
-                });
-                if (DateTime::createFromFormat('Y-m-d', $params['search_name']) !== false) {
-                    $q->orWhere('students.lead_date',$params['search_name']);
-                }
-                $q->orwhereHas('programcode', function($qu) use($params) {
-                    $qu->where('program_code', 'like', '%' . $params['search_name'] . '%');
-                });
-            });
+        if (isset($params['search_status']) && $params['search_status'] != null && $params['search_status'] != '') {
+            $query->where('status', $params['search_status']);
         }
         
         //dd($params, $query->toSql());
@@ -152,6 +118,106 @@ class Student extends Model
         return $list;
     }
 
+    public function studentVl($v_reference_no) {
+        $student =  \DB::connection('mysql2')->table('students')->select('*')->where('v_reference_no', $v_reference_no)->first();
+       
+         if($student != null) {
+            $studentdata = json_decode(json_encode($student), true);
+            
+            $vl = \DB::connection('mysql2')->table('student_vl_letters')->select('*')->where('student_id',$studentdata['id'])->latest()->first();
+            $vldata = json_decode(json_encode($vl), true);
+
+            $media = \DB::connection('mysql2')->table('media')->select('original_file_name')->where('id',$vldata['media_id'])->first();
+            $mediadata = json_decode(json_encode($media), true);
+            $path = env('DB_SECOND_APP_URL').'/storage/uploads/media/visa_letter/'.$mediadata['original_file_name'];
+            return ($path);
+         } else {
+            return '#';
+         }
+     }
+     public function studentVlArchieve($vista_id) {
+         $student =  \DB::connection('mysql2')->table('students')->select('*')->where('vista_id', $vista_id)->first();
+       
+         if($student != null) {
+            $studentdata = json_decode(json_encode($student), true);
+            
+            $vla = \DB::connection('mysql2')->table('student_vl_letters_archives')->select('*')->where('student_id',$studentdata['id'])->where('type1',null)->latest()->get();
+            $vladata = json_decode(json_encode($vla), true);
+            $str = "";
+            if(count($vladata) > 0) {
+                foreach ($vladata as $key => $data) {
+                    $str .= "<tr><td>".date("d/m/Y", strtotime($data['created_at']))."</td>";
+                    if($data['media_id'] != null) {
+                        $media = \DB::connection('mysql2')->table('media')->select('original_file_name')->where('id',$data['media_id'])->first();
+                        $mediadata = json_decode(json_encode($media), true);
+                        $path = env('DB_SECOND_APP_URL').'/storage/uploads/media/visa_letter/'.$mediadata['original_file_name'];
+
+                        $str .= "<td><a href='".$path."' target='_blank'><i class='fas fa-file-pdf text-primary'></i></a></td>";
+                    } else {
+                        $str .= '<td>-</td>';
+                    }
+                    $str .= "<td>".$data['type']."</td>";
+                    $str.= "</tr>";
+                }
+            }
+             
+         } else {
+            $str .= "No data found";
+         }
+         return $str;
+     }
+ 
+     public function studentCol($v_reference_no) {
+         $student =  \DB::connection('mysql2')->table('students')->select('*')->where('v_reference_no', $v_reference_no)->first();
+ 
+         if($student != null) {
+            $studentdata = json_decode(json_encode($student), true);
+
+            $vl = \DB::connection('mysql2')->table('student_col_offers')->select('*')->where('student_id',$studentdata['id'])->latest()->first();
+            $vldata = json_decode(json_encode($vl), true);
+
+            $media = \DB::connection('mysql2')->table('media')->select('original_file_name')->where('id',$vldata['media_id'])->first();
+            $mediadata = json_decode(json_encode($media), true);
+            $path = env('DB_SECOND_APP_URL').'/storage/uploads/media/offer_letter/'.$mediadata['original_file_name'];
+            return ($path);
+         } else {
+            return '#';
+         }
+     }
+ 
+     public function studentColArchieve($vista_id) {
+         $student =  \DB::connection('mysql2')->table('students')->select('*')->where('vista_id', $vista_id)->first();
+       
+         if($student != null) {
+            $studentdata = json_decode(json_encode($student), true);
+            
+            $cola = \DB::connection('mysql2')->table('student_col_offers_archives')->select('*')->where('student_id',$studentdata['id'])->latest()->get();
+            $coladata = json_decode(json_encode($cola), true);
+            $str = "";
+            if(count($coladata) > 0) {
+                foreach ($coladata as $key => $data) {
+                    $str .= "<tr><td>".date("d/m/Y", strtotime($data['created_at']))."</td>";
+                    if($data['media_id'] != null) {
+                        $media = \DB::connection('mysql2')->table('media')->select('original_file_name')->where('id',$data['media_id'])->first();
+                        $mediadata = json_decode(json_encode($media), true);
+                        $path = env('DB_SECOND_APP_URL').'/storage/uploads/media/offer_letter/'.$mediadata['original_file_name'];
+
+                        $str .= "<td><a href='".$path."' target='_blank'><i class='fas fa-file-pdf text-primary'></i></a></td>";
+                    } else {
+                        $str .= '<td>-</td>';
+                    }
+                    $str .= "<td>".$data['admission_year']."</td>";
+                    $str .= "<td>".$data['intake']."</td>";
+                    $str.= "</tr>";
+                }
+            }
+             
+         } else {
+            $str .= "No data found";
+         }
+         return $str;
+     }
+
     /*
     * Function Name     :   getActivityTitle
     * Use               :   Use for Activity Log
@@ -160,7 +226,7 @@ class Student extends Model
     public function getActivityTitle($add_link = true)
     {
         if ($add_link) {
-            return '<strong><a href="' . route('edit-student', ['unique_id' => $this->unique_id]) . '" target="_blank">' . $this->title . ' [' . $this->unique_id . ']</a></strong>';
+            //return '<strong><a href="' . route('edit-student', ['unique_id' => $this->unique_id]) . '" target="_blank">' . $this->title . ' [' . $this->unique_id . ']</a></strong>';
         } else {
             return '<strong>' . $this->title . ' [' . $this->unique_id . ']</strong>';
         }

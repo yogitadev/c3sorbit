@@ -12,7 +12,7 @@ use App\Helpers\Helper;
 use App\Models\course\Programcode;
 use App\Models\cms\Subject;
 use App\Models\cms\LectureSchedule;
-use App\Models\lead_management\Student;
+use App\Models\person\Student;
 
 class LectureStudentPresent extends Model
 {

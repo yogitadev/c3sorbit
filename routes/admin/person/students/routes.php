@@ -12,6 +12,7 @@ use App\Http\Controllers\admin\person\students\IndexController;
 // use App\Http\Controllers\admin\person\students\ReorderController;
 // use App\Http\Controllers\admin\person\students\UpdateOrderController;
 use App\Http\Controllers\admin\person\students\ViewController;
+use App\Http\Controllers\admin\person\students\AssignmentSubmitController;
 
 Route::group(['prefix' => 'students'], function ($router) {
 
@@ -19,6 +20,9 @@ Route::group(['prefix' => 'students'], function ($router) {
 
     //View 
     Route::get('/{unique_id}/view', ViewController::class)->name('view-student');
+
+    //Assignment Submit
+    Route::post('/assignment-submit', AssignmentSubmitController::class)->name('assignment-submit-student');
 
     // Create
     // Route::get('/create', CreateController::class)->name('create-student');

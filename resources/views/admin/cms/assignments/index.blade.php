@@ -106,6 +106,13 @@
 
                                     <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fs-7 w-150px py-4"
                                         data-kt-menu="true">
+                                        @can('assignments.view')
+                                            <div class="menu-item px-3">
+                                                <a href="{{ route('view-assignment', ['unique_id' => $item->unique_id]) }}"
+                                                    class="menu-link px-3">
+                                                    <i class="fas fa-eye me-3"></i> View</a>
+                                            </div>
+                                        @endcan
                                         @can('assignments.edit')
                                             <div class="menu-item px-3">
                                                 <a href="{{ route('edit-assignment', ['unique_id' => $item->unique_id]) }}"
